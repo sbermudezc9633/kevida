@@ -42,7 +42,7 @@
 
     // Countdown Timer
     function countDownTimer() {	
-        var endTime = new Date("31 December 2045 10:00:00 GMT+00:00");
+        var endTime = new Date("31 December 2026 10:00:00 GMT+00:00");
         endTime = (Date.parse(endTime) / 1000);
 
         var now = new Date();
@@ -68,10 +68,10 @@
             seconds = "0" + seconds;
         }
 
-        $("#cdt-days").html(days + "<span>-Days-</span>");
-        $("#cdt-hours").html(hours + "<span>-Hours-</span>");
-        $("#cdt-minutes").html(minutes + "<span>-Mins-</span>");
-        $("#cdt-seconds").html(seconds + "<span>-Secs-</span>");
+        $("#cdt-days").html(days + "<span>-Días-</span>");
+        $("#cdt-hours").html(hours + "<span>-Horas-</span>");
+        $("#cdt-minutes").html(minutes + "<span>-Minutos-</span>");
+        $("#cdt-seconds").html(seconds + "<span>-Segundos-</span>");
 
     }
 
