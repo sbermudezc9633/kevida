@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevida | Bienestar y Estilo de Vida Saludable</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">KEVIDA</div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#sobre-nosotros">Nosotros</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <div class="burger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1 class="reveal">Nutre tu vida, <br><span>sana tu alma.</span></h1>
+            <p class="reveal">Descubre el equilibrio perfecto entre la naturaleza y tu bienestar diario.</p>
+            <a href="#productos" class="btn-primary reveal">Explorar Productos</a>
+        </div>
+    </section>
+
+    <section id="sobre-nosotros" class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800" alt="Estilo de vida saludable">
+                </div>
+                <div class="about-text">
+                    <h2>Nuestra Esencia</h2>
+                    <p>En <strong>Kevida</strong>, creemos que la salud no es un destino, sino un camino consciente. Inspirados en la pureza de lo natural, seleccionamos productos que potencian tu energía y respetan tu cuerpo.</p>
+                    <ul class="features">
+                        <li><i class="fas fa-leaf"></i> 100% Orgánico</li>
+                        <li><i class="fas fa-heart"></i> Hecho con consciencia</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="productos" class="products">
+        <h2 class="section-title">Esenciales para tu Bienestar</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="badge">Nuevo</div>
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=400" alt="Suplementos">
+                <h3>Suplementos Naturales</h3>
+                <p>Potencia tu sistema inmune con extractos puros.</p>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1512152272829-e3139592d56f?auto=format&fit=crop&q=80&w=400" alt="Snacks">
+                <h3>Snacks Saludables</h3>
+                <p>Energía real para tus días más exigentes.</p>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1594494859121-644635298073?auto=format&fit=crop&q=80&w=400" alt="Cuidado">
+                <h3>Cuidado Personal</h3>
+                <p>Rituales de belleza libres de químicos.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <h2 class="section-title">@kevida.pei en Instagram</h2>
+        <div class="instagram-grid">
+            <div class="ig-item"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=400" alt="IG 1"></div>
+            <div class="ig-item"><img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=400" alt="IG 2"></div>
+            <div class="ig-item"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=400" alt="IG 3"></div>
+            <div class="ig-item"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=80&w=400" alt="IG 4"></div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact">
+        <div class="container">
+            <h2>Únete a la comunidad</h2>
+            <div class="contact-wrapper">
+                <form class="contact-form">
+                    <input type="text" placeholder="Nombre completo" required>
+                    <input type="email" placeholder="Correo electrónico" required>
+                    <textarea placeholder="¿Cómo podemos ayudarte?" rows="4"></textarea>
+                    <button type="submit" class="btn-primary">Enviar Mensaje</button>
+                </form>
+                <div class="social-links">
+                    <a href="https://wa.me/#" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> Chat en Vivo</a>
+                    <a href="https://instagram.com/kevida.pei" target="_blank" class="ig-btn"><i class="fab fa-instagram"></i> Síguenos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 KEVIDA - Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+2. Estilos CSS (style.css)
+CSS
+
+:root {
+    --primary: #6B8E23; /* Verde Oliva */
+    --secondary: #D2B48C; /* Tierra/Tan */
+    --accent: #F5F5DC; /* Beige */
+    --dark: #2D2D2D;
+    --light: #FFFFFF;
+    --transition: all 0.4s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    scroll-behavior: smooth;
+    background-color: var(--light);
+}
+
+h1, h2, .logo {
+    font-family: 'Playfair Display', serif;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    transition: var(--transition);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary);
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--dark);
+    margin-left: 30px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-links li a:hover {
+    color: var(--primary);
+}
+
+/* Hero */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                url('https://images.unsplash.com/photo-1473091534298-04dcbce3278c?auto=format&fit=crop&q=80&w=1400') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light);
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Buttons */
+.btn-primary {
+    padding: 15px 40px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    display: inline-block;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    background-color: #556B2F;
+}
+
+/* Products */
+.products {
+    padding: 100px 5%;
+    background-color: var(--accent);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    background: var(--light);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    position: relative;
+    transition: var(--transition);
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+.product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.badge {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: var(--secondary);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* Instagram Gallery */
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.ig-item img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(20%);
+    transition: var(--transition);
+}
+
+.ig-item img:hover {
+    filter: grayscale(0%);
+}
+
+/* Form */
+.contact {
+    padding: 100px 5%;
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 40px;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.whatsapp-btn, .ig-btn {
+    display: block;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.whatsapp-btn { background: #25D366; color: white; }
+.ig-btn { background: #E1306C; color: white; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .instagram-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-content h1 { font-size: 2.5rem; }
+}
