@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidencia SOI 2.0 — Contratos y alcance de "Copiar Planillas" (en_linea)</title>
+    <style>
+        :root {
+            --primary: #0f4c81;
+            --primary-light: #e8f1f8;
+            --secondary: #2b6cb0;
+            --text-dark: #1a202c;
+            --text-muted: #4a5568;
+            --bg-body: #f7fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --code-bg: #edf2f7;
+            --warning-bg: #fffaf0;
+            --warning-border: #dd6b20;
+            --warning-text: #9c4221;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.65;
+            color: var(--text-dark);
+            background-color: var(--bg-body);
+            margin: 0;
+            padding: 0;
+        }
+        .layout {
+            display: flex;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            gap: 2rem;
+        }
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 2rem;
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .sidebar h2 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar li {
+            margin-bottom: 0.45rem;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.875rem;
+            display: block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.15s, color 0.15s;
+        }
+        .sidebar a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        .sidebar .sub-item {
+            padding-left: 1.25rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 1.85rem;
+            margin-top: 0;
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.75rem;
+        }
+        h2 {
+            color: var(--primary);
+            font-size: 1.45rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.4rem;
+        }
+        h3 {
+            color: var(--secondary);
+            font-size: 1.15rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+        blockquote {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            margin: 1.5rem 0;
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+            color: var(--text-dark);
+        }
+        blockquote p {
+            margin: 0.35rem 0;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: var(--code-bg);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+            color: #c53030;
+        }
+        pre {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 1.15rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.25rem 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.65rem 0.85rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .badge-not-found {
+            display: inline-block;
+            background-color: var(--warning-bg);
+            color: var(--warning-text);
+            border: 1px solid var(--warning-border);
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        ul, ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        li {
+            margin-bottom: 0.45rem;
+        }
+        .source-tag {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #94a3b8;
+        }
+        @media (max-width: 900px) {
+            .layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+            }
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <nav class="sidebar">
+        <h2>Contenido</h2>
+        <ul>
+            <li><a href="#sec-1">1. Contrato de entrada</a></li>
+            <li><a href="#sec-1-1" class="sub-item">1.1 No existe contrato REST</a></li>
+            <li><a href="#sec-1-2" class="sub-item">1.2 CopiarPlanillasPaso1Action</a></li>
+            <li><a href="#sec-1-3" class="sub-item">1.3 CopiarPlanillasPaso2Action</a></li>
+            <li><a href="#sec-1-4" class="sub-item">1.4 Campos reales de Forms</a></li>
+            <li><a href="#sec-1-5" class="sub-item">1.5 Origen de la información</a></li>
+            <li><a href="#sec-2">2. Contrato de salida</a></li>
+            <li><a href="#sec-2-1" class="sub-item">2.1 CopiarPlanillasDTO</a></li>
+            <li><a href="#sec-2-2" class="sub-item">2.2 InformacionPlanillaDTO</a></li>
+            <li><a href="#sec-2-3" class="sub-item">2.3 Resultado de cada copia</a></li>
+            <li><a href="#sec-3">3. Reglas de transformación</a></li>
+            <li><a href="#sec-3-1" class="sub-item">3.1 Generación en LiquidacionPlanillaMngr</a></li>
+            <li><a href="#sec-3-2" class="sub-item">3.2 Transformación en Paso2Action</a></li>
+            <li><a href="#sec-3-3" class="sub-item">3.3 Tratamiento de datos</a></li>
+            <li><a href="#sec-4">4. Persistencia complementaria</a></li>
+            <li><a href="#sec-4-1" class="sub-item">4.1 Cadena de guardado</a></li>
+            <li><a href="#sec-4-2" class="sub-item">4.2 Operaciones post-guardado</a></li>
+            <li><a href="#sec-4-3" class="sub-item">4.3 Transacciones y errores</a></li>
+            <li><a href="#sec-5">5. Validaciones</a></li>
+            <li><a href="#sec-5-1" class="sub-item">5.1 Validaciones de pantalla</a></li>
+            <li><a href="#sec-5-2" class="sub-item">5.2 Base y periodos ocupados</a></li>
+            <li><a href="#sec-5-3" class="sub-item">5.3 Validaciones en generación</a></li>
+            <li><a href="#sec-5-4" class="sub-item">5.4 Validaciones post-guardado</a></li>
+            <li><a href="#sec-5-5" class="sub-item">5.5 Reglas especiales cotizantes</a></li>
+            <li><a href="#sec-6">6. Datos NO ENCONTRADOS</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <h1>Evidencia SOI 2.0 — Contratos y alcance de "Copiar Planillas" (en_linea)</h1>
+
+        <blockquote>
+            <p>Documento complementario a <code>copiar-planillas-evidencia-soi2.md</code>.</p>
+            <p>Contiene <strong>únicamente</strong> la información necesaria para definir los contratos HTTP y la orquestación del microservicio "Copiar Planillas" en SOI 3.0.</p>
+            <p>Todo lo citado proviene del código fuente SOI 2.0 (rutas absolutas incluidas).</p>
+            <p>Lo que no pudo verificarse se marca como <span class="badge-not-found">NO ENCONTRADO</span>.</p>
+        </blockquote>
+
+        <!-- SECCIÓN 1 -->
+        <h2 id="sec-1">1. Contrato de entrada</h2>
+
+        <h3 id="sec-1-1">1.1 No existe contrato REST en SOI 2.0</h3>
+        <p>El flujo "Copiar Planillas" en SOI 2.0 <strong>no expone endpoints REST</strong>. Es un flujo <strong>Struts (JSP + ActionForm + Action)</strong> con estado en <strong>sesión HTTP</strong> (<code>HttpSession</code> vía <code>BasePagerAction.setSessionAttribute</code>).</p>
+        <p>Cadena de navegación verificada:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Paso</th>
+                    <th>URL Struts</th>
+                    <th>Action</th>
+                    <th>Rol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0</td>
+                    <td><code>/inicioCopiaPlanillas</code></td>
+                    <td><code>InicioCopiaPlanillasAction</code></td>
+                    <td>Carga planilla base + info aportante</td>
+                </tr>
+                <tr>
+                    <td>0b</td>
+                    <td><code>/validarCopiaPlanillas</code></td>
+                    <td><code>ValidarCopiaPlanillasAction</code></td>
+                    <td>Validaciones previas</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><code>/copiarPlanillasPaso1</code></td>
+                    <td><code>CopiarPlanillasPaso1Action</code></td>
+                    <td>Periodos a copiar + generación de copias (RN)</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>/copiarPlanillasPaso2</code></td>
+                    <td><code>CopiarPlanillasPaso2Action</code></td>
+                    <td>Persistencia de cada planilla seleccionada</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><code>/copiarPlanillasPaso3</code></td>
+                    <td><code>CopiarPlanillasPaso3Action</code></td>
+                    <td>Solo navegación/confirmación</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="source-tag">
+            <strong>Fuente:</strong> <code>docs/migracion-soi3/copiar-planillas-evidencia-soi2.md</code> §1; <code>liq.web/src/main/java/com/ach/liquidacion/web/administrarplanillas/CopiarPlanillasPaso1Action.java:48-223</code>.
+        </div>
+
+        <h3 id="sec-1-2">1.2 Cómo <code>CopiarPlanillasPaso1Action</code> genera las copias</h3>
+        <div class="source-tag">
+            <strong>Archivo:</strong> <code>liq.web/src/main/java/com/ach/liquidacion/web/administrarplanillas/CopiarPlanillasPaso1Action.java</code>
+        </div>
+        <p>En el branch <code>"Siguiente".equals(siguiente)</code> (líneas 70-220):</p>
+        <ol>
+            <li>Clona la <code>PlanillaAportanteDTO</code> base del form (línea 78).</li>
+            <li><code>validarCantidadDePeriodos(...)</code> (líneas 226-234): retorna <code>true</code> si <code>PeriodoLiquidacionNoSaludDesde == PeriodoLiquidacionNoSaludHasta</code> (un solo periodo).</li>
+            <li><code>liquidacionPlanillaDG.validarPeriodosPlanillaCopia(planillaAportanteDTO)</code> (línea 85) devuelve <code>List&lt;PeriodoType&gt; periodosOmitidos</code> (periodos ya ocupados por otra planilla).</li>
+            <li>Si hay omitidos <strong>y</strong> es un solo periodo &rarr; error <code>copiarPlanilla.validacion.planilla.periodo</code> (líneas 87-91).</li>
+            <li><code>planillaAportanteDTO.setPeriodosOmitidosCopiaPlanilla(periodosOmitidos)</code> (línea 97).</li>
+            <li><strong><code>planillasCopia = liquidacionPlanillaDG.copiarPlanillaAPartirDeBaseRN(planillaAportanteDTO)</code></strong> (línea 98). Este es el método que genera la colección de copias (ver §3).</li>
+            <li><code>EP729PlanillaJ.depurarPlanillas(planillasCopia, planillaAportanteDTO)</code> (línea 100).</li>
+            <li>Consulta cotizantes de la planilla base: <code>administracionPlanillasDG.consultarCotizante(idSoiPlanilla, esPlanillaN)</code> con <code>esPlanillaN = planillaAportanteDTO.isPlanillaTipoN()</code> (líneas 112-120).</li>
+            <li>Reglas especiales sobre la colección generada:
+                <ul>
+                    <li><strong>EP883 / TC75</strong> (líneas 124-157): si existe cotizante <code>TC_75_DEPENDIENTE_CON_PERMANENCIA_REGIMEN_SUBSIDIADO</code>, verifica <code>ep883Cotizante75.aportanteEnPermaSub(...)</code>; si no aplica, vacía <code>planillasCopia</code>; si aplica, <code>ep883Cotizante75.validarCotizante75(czte, copia.getPlanillaAportanteDTO())</code> y acumula en <code>planillasCopiaOmitir</code> las copias con <code>ApplicationException</code> cuyo <code>codigo != 13303</code>.</li>
+                    <li><strong>TC12</strong> (líneas 152-180): si existe <code>TC_12_APRENDICES_DEL_SENA_EN_ETAPA_LECTIVA</code>, elimina de <code>planillasCopia</code> las copias cuyo <code>periodoSistemaNoSalud</code> sea <code>&gt;= 2025-07-01</code> (<code>fechaCorte</code> hardcodeado, líneas 108-110).</li>
+                    <li>Remueve <code>planillasCopiaOmitir</code> de <code>planillasCopia</code> (líneas 184-188).</li>
+                </ul>
+            </li>
+            <li>Si <code>planillasCopia</code> no vacío: arma <code>PagedTableDTO&lt;CopiarPlanillasDTO&gt;</code>, crea <code>CopiarPlanillasPaso2Form consultaForm</code>, setea <code>pagedTableDTO</code> y <code>planillaAportanteDTO</code>, y lo guarda en sesión como <strong><code>"copiarPlanillasPaso2"</code></strong> (líneas 191-202).</li>
+            <li>Si hay <code>periodosOmitidos</code> &rarr; <code>mostrarPopup4=true</code>, forward <code>success</code>; si no &rarr; forward <code>siguiente</code>.</li>
+            <li>Si <code>planillasCopia</code> vacío &rarr; error <code>copiarPlanilla.validacion.sinPlanillas</code>.</li>
+        </ol>
+
+        <h3 id="sec-1-3">1.3 Cómo <code>CopiarPlanillasPaso2Action</code> recibe los periodos seleccionados</h3>
+        <div class="source-tag">
+            <strong>Archivo:</strong> <code>liq.web/src/main/java/com/ach/liquidacion/web/administrarplanillas/CopiarPlanillasPaso2Action.java</code> (evidencia verbatim en <code>copiar-planillas-evidencia-soi2.md</code> §8.2).
+        </div>
+        <ul>
+            <li>El form es <code>CopiarPlanillasPaso2Form</code> (Struts), que contiene:
+                <ul>
+                    <li><code>int[] seleccionado</code> — índices (1-based) de las filas marcadas en pantalla.</li>
+                    <li><code>PlanillaAportanteDTO planillaAportanteDTO</code> — la planilla base (inyectada desde sesión/paso1).</li>
+                    <li><code>PlanillaConsultadaDTO planillaConsultadaDTO</code>.</li>
+                </ul>
+            </li>
+            <li>La colección completa de copias <strong>no viaja en el request</strong>: se recupera del <code>PagedTableDTO&lt;CopiarPlanillasDTO&gt;</code> que el propio form arrastra (en la práctica el <code>CopiarPlanillasPaso2Form</code> fue poblado en Paso1 y guardado en sesión como <code>"copiarPlanillasPaso2"</code>; Struts rehidrata el form en el submit de Paso2).</li>
+            <li>En <code>execute</code>, branch <code>"Siguiente"</code> (líneas ~95-260 del archivo extraído):
+                <ul>
+                    <li><code>lista = copiarPlanillasPaso2Form.getPagedTableDTO()</code> &rarr; <code>List&lt;CopiarPlanillasDTO&gt;</code>.</li>
+                    <li><code>for (int sel : copiarPlanillasPaso2Form.getSeleccionado())</code> &rarr; <code>idx = sel - 1</code>; <code>copiarPlanillasDTO = lista.get(idx)</code> (líneas ~5708-5722 del doc de evidencia).</li>
+                    <li>De cada <code>CopiarPlanillasDTO</code> seleccionado se toman <code>getPeriodoSistemaNoSalud()</code> y <code>getPeriodoSistemaSalud()</code> para fijar los periodos de la copia a persistir (líneas 5723-5724).</li>
+                </ul>
+            </li>
+            <li>Validación del form (<code>CopiarPlanillasPaso2Form.validate</code>, líneas 38-48): si <code>seleccionado == null || seleccionado.length &lt;= 0</code> y <code>Siguiente != null</code> &rarr; error <code>copiarPlanilla.paso2.validarCheck</code>.</li>
+        </ul>
+
+        <h3 id="sec-1-4">1.4 Campos reales de los Forms</h3>
+        <p><strong><code>CopiarPlanillasPaso1Form</code></strong> — <code>liq.web/.../CopiarPlanillasPaso1Form.java:25-320</code></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Origen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>planillaAportanteDTO</code></td>
+                    <td><code>PlanillaAportanteDTO</code></td>
+                    <td>Sesión / paso anterior (planilla base completa)</td>
+                </tr>
+                <tr>
+                    <td><code>planillaConsultadaDTO</code></td>
+                    <td><code>PlanillaConsultadaDTO</code></td>
+                    <td>Sesión</td>
+                </tr>
+                <tr>
+                    <td><code>numeroEmpleados</code>, <code>formaPresentacion</code>, <code>ccf</code>, <code>arp</code>, <code>tipoPlanilla</code>, <code>reformaTributaria</code></td>
+                    <td><code>String</code></td>
+                    <td>Solo visualización (datos de la planilla consultada)</td>
+                </tr>
+                <tr>
+                    <td><code>periodoLiqSaludAnnioDesde/MesDesde/Hasta</code></td>
+                    <td><code>String</code></td>
+                    <td><strong>Pantalla</strong> (selects de periodo salud)</td>
+                </tr>
+                <tr>
+                    <td><code>periodoLiqOtrosSubsAnnioDesde/MesDesde/Hasta</code></td>
+                    <td><code>String</code></td>
+                    <td><strong>Pantalla</strong> (selects de periodo no-salud = periodo de copia)</td>
+                </tr>
+                <tr>
+                    <td><code>coleccionMeses</code>, <code>coleccionAnnios</code></td>
+                    <td><code>Collection&lt;PeriodoLiquidacionVO&gt;</code></td>
+                    <td>Catálogos para los selects</td>
+                </tr>
+                <tr>
+                    <td><code>planillasIndependiente</code></td>
+                    <td><code>boolean</code></td>
+                    <td>Bandera de UI (planillas independientes: salud = otros subs)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><code>validacionDatosPlanillaCopia()</code> (líneas 131-165) traduce los strings de pantalla a <code>PeriodoType</code> y los inyecta en <code>planillaAportanteDTO</code>: <code>setPeriodoLiquidacionNoSaludDesde/Hasta</code>, <code>setPeriodoLiquidacionSaludDesde/Hasta</code>. Si <code>planillasIndependiente == true</code>, los periodos de salud se igualan a los de "otros subs".</p>
+
+        <p><strong><code>CopiarPlanillasPaso2Form</code></strong> — <code>liq.web/.../CopiarPlanillasPaso2Form.java:27-81</code></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Origen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>seleccionado</code></td>
+                    <td><code>int[]</code></td>
+                    <td><strong>Pantalla</strong> (checkboxes de la grilla)</td>
+                </tr>
+                <tr>
+                    <td><code>planillaAportanteDTO</code></td>
+                    <td><code>PlanillaAportanteDTO</code></td>
+                    <td>Sesión (inyectada por Paso1, línea 194 de Paso1Action)</td>
+                </tr>
+                <tr>
+                    <td><code>planillaConsultadaDTO</code></td>
+                    <td><code>PlanillaConsultadaDTO</code></td>
+                    <td>Sesión</td>
+                </tr>
+                <tr>
+                    <td>(heredado de <code>BasePagerForm</code>) <code>pagedTableDTO</code></td>
+                    <td><code>PagedTableDTO&lt;CopiarPlanillasDTO&gt;</code></td>
+                    <td>Sesión — contiene <code>List&lt;CopiarPlanillasDTO&gt;</code> generadas en Paso1</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="sec-1-5">1.5 Origen de la información (planilla base / pantalla / sesión)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Información</th>
+                    <th>Origen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Planilla base completa (<code>PlanillaAportanteDTO</code>, cotizantes, aportante, ARP, periodos base)</td>
+                    <td><strong>Base de datos</strong> (cargada en <code>InicioCopiaPlanillasAction</code>/<code>ValidarCopiaPlanillasAction</code> y transportada por sesión)</td>
+                </tr>
+                <tr>
+                    <td>Rango de periodos a copiar (desde/hasta, salud y no-salud)</td>
+                    <td><strong>Pantalla</strong> (<code>CopiarPlanillasPaso1Form.periodoLiq*</code>)</td>
+                </tr>
+                <tr>
+                    <td>Periodos ocupados a omitir (<code>periodosOmitidosCopiaPlanilla</code>)</td>
+                    <td><strong>Base de datos</strong> (<code>LiquidacionPlanillaMngr.validarPeriodosPlanillaCopia</code>)</td>
+                </tr>
+                <tr>
+                    <td>Copias generadas (<code>CopiarPlanillasDTO</code> + <code>PlanillaAportanteDTO</code> copia + cotizantes)</td>
+                    <td><strong>Generadas en servidor</strong> (<code>copiarPlanillaAPartirDeBaseRN</code>) y transportadas en <strong>sesión</strong> (<code>"copiarPlanillasPaso2"</code>)</td>
+                </tr>
+                <tr>
+                    <td>Selección de copias a persistir (<code>seleccionado[]</code>)</td>
+                    <td><strong>Pantalla</strong> (Paso2)</td>
+                </tr>
+                <tr>
+                    <td>Usuario autenticado, IP, datos de sesión (<code>CommonValuesBean</code>)</td>
+                    <td><strong>Sesión HTTP</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- SECCIÓN 2 -->
+        <h2 id="sec-2">2. Contrato de salida</h2>
+
+        <h3 id="sec-2-1">2.1 Estructura completa de <code>CopiarPlanillasDTO</code></h3>
+        <div class="source-tag">
+            <strong>Archivo:</strong> <code>pla.biz/src/main/java/com/ach/pla/biz/transfer/CopiarPlanillasDTO.java:15-158</code>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Seteado en</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>secuencia</code></td>
+                    <td><code>Integer</code></td>
+                    <td><code>copiarPlanillaAPartirDeBase</code> (línea 4993: <code>cantidadPlanillas</code>); reasignado 1..N en Paso2 (línea 5813)</td>
+                </tr>
+                <tr>
+                    <td><code>idSoiPlanilla</code></td>
+                    <td><code>Long</code></td>
+                    <td>Generación: <code>Long.valueOf(cantidadPlanillas)</code> (temporal, línea 4996); <strong>Paso2</strong>: <code>informacionPlanillaDTO.getIdSoiPlanilla()</code> real (línea 5788)</td>
+                </tr>
+                <tr>
+                    <td><code>numeroPlanillaAsistida</code></td>
+                    <td><code>String</code></td>
+                    <td><span class="badge-not-found">NO ENCONTRADO</span> setter en el flujo de copiado (solo getter/setter del DTO)</td>
+                </tr>
+                <tr>
+                    <td><code>numeroPlanillaElectronica</code></td>
+                    <td><code>String</code></td>
+                    <td><strong>Paso2</strong>: <code>pagoPseDG.realizarPagoOtrosCanales(...)</code> si aplica pago otros canales, si no <code>informacionPlanillaDTO.getNumeroPlanilla()</code> (líneas 5775-5777)</td>
+                </tr>
+                <tr>
+                    <td><code>tipoPlanilla</code></td>
+                    <td><code>String</code></td>
+                    <td><code>planillaAportanteDTOCopia.getCodigoSoiTpPlanilla()</code> (línea 4994)</td>
+                </tr>
+                <tr>
+                    <td><code>valorPagoSinMora</code></td>
+                    <td><code>BigDecimal</code></td>
+                    <td><code>totalizadorCotizante.getPlanillaTotalesDTO().getVlrGranTotal()</code> (línea 4995)</td>
+                </tr>
+                <tr>
+                    <td><code>estadoPlanilla</code></td>
+                    <td><code>EstadoPlanillaType</code></td>
+                    <td><span class="badge-not-found">NO ENCONTRADO</span> setter directo en Paso2; el estado queda persistido en <code>SOI_PLANILLA</code> vía <code>PlanillaVO</code></td>
+                </tr>
+                <tr>
+                    <td><code>periodoSistemaNoSalud</code></td>
+                    <td><code>PeriodoType</code></td>
+                    <td>Periodo de la copia (línea 4997)</td>
+                </tr>
+                <tr>
+                    <td><code>periodoSistemaSalud</code></td>
+                    <td><code>PeriodoType</code></td>
+                    <td>Periodo de la copia (línea 4998)</td>
+                </tr>
+                <tr>
+                    <td><code>numeroEmpleados</code></td>
+                    <td><code>Long</code></td>
+                    <td><strong>Paso2</strong>: <code>informacionPlanillaDTO.getCantidadCotizantes()</code> (línea 5787)</td>
+                </tr>
+                <tr>
+                    <td><code>fechaLimitePago</code></td>
+                    <td><code>String</code> (<code>dd/MM/yyyy</code>)</td>
+                    <td><strong>Paso2</strong>: RN010 + <code>obtenerDiaHabil</code> + EP892 <code>consultarFechaPagoOportuno</code> (líneas 5795-5811)</td>
+                </tr>
+                <tr>
+                    <td><code>planillaAportanteDTO</code></td>
+                    <td><code>PlanillaAportanteDTO</code></td>
+                    <td>Copia del aportante con periodos de la copia (línea 4999)</td>
+                </tr>
+                <tr>
+                    <td><code>planillaCotizanteDTO</code></td>
+                    <td><code>Collection&lt;PlanillaCotizanteDTO&gt;</code></td>
+                    <td>Cotizantes filtrados por <code>validacionFechaPerSaludCotizantePlanilla</code> (línea 5002)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="sec-2-2">2.2 Campos relevantes de <code>InformacionPlanillaDTO</code> retornado por <code>guardarPlanillaAportante</code></h3>
+        <div class="source-tag">
+            <strong>Archivo:</strong> <code>pla.biz/src/main/java/com/ach/pla/biz/transfer/InformacionPlanillaDTO.java:14-103</code><br>
+            Seteados dentro de <code>PlanillaRegistroMngr.guardarPlanilla</code> (<code>/tmp/nsoi_extract/PlanillaRegistroMngr.java:811-878</code>) y <code>guardarPlanillaAportante</code> (líneas 157-169):
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Quién lo setea</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>idSoiPlanilla</code></td>
+                    <td><code>Long</code></td>
+                    <td><code>planillaVO.getIdSoiPlanilla()</code> tras <code>almacenarPlanilla</code> (línea 834); también <code>guardarPlanillaAportante</code> lo copia al DTO (línea 165)</td>
+                </tr>
+                <tr>
+                    <td><code>numeroPlanilla</code></td>
+                    <td><code>String</code></td>
+                    <td><code>planillaVO.getNumeroElectronica()</code> si modalidad electrónica, si no <code>getNumeroAsistida()</code> (líneas 851-855)</td>
+                </tr>
+                <tr>
+                    <td><code>valorTotal</code></td>
+                    <td><code>BigDecimal</code></td>
+                    <td><code>planillaTotalesDTO.getVlrGranTotal()</code> (línea 840)</td>
+                </tr>
+                <tr>
+                    <td><code>valorMora</code></td>
+                    <td><code>BigDecimal</code></td>
+                    <td><code>planillaTotalesDTO.getVlrGranTotalMora()</code> (línea 839)</td>
+                </tr>
+                <tr>
+                    <td><code>cantidadCotizantes</code></td>
+                    <td><code>Long</code></td>
+                    <td><code>cantidadCotizates = cotizantes.size()</code> (línea 843)</td>
+                </tr>
+                <tr>
+                    <td><code>cotizantes</code></td>
+                    <td><code>Collection&lt;PlanillaCotizanteDTO&gt;</code></td>
+                    <td><code>guardarPlanillaAportante</code> línea 167 (<code>informacionPlanillaDTO.setCotizantes(cotizantes)</code>) — NEC259</td>
+                </tr>
+                <tr>
+                    <td><code>novedadesOmitidasRegAPnllaN</code></td>
+                    <td><code>Collection&lt;NovedadesCotizanteEnPlanillaType&gt;</code></td>
+                    <td>Línea 844</td>
+                </tr>
+                <tr>
+                    <td><code>mostrarPagoOtrosCanalesCategoriaMunicipioApte</code></td>
+                    <td><code>boolean</code></td>
+                    <td>Línea 857</td>
+                </tr>
+                <tr>
+                    <td><code>categoriaMunicipioType</code></td>
+                    <td><code>CategoriaMunicipioType</code></td>
+                    <td>Línea 858</td>
+                </tr>
+                <tr>
+                    <td><code>cantidadSMMLVTopeMaximoCategoriaMunicipio</code></td>
+                    <td><code>BigDecimal</code></td>
+                    <td>Línea 859</td>
+                </tr>
+                <tr>
+                    <td><code>existeErrorAlmacenamientoPlanilla</code>, <code>nombreArchivosError</code>, <code>contenidoArchivoError</code></td>
+                    <td>—</td>
+                    <td>Flags de error de archivos de salida (declarados, no verificado seteo en este flujo)</td>
+                </tr>
+                <tr>
+                    <td><code>fechaPagoEfectiva</code>, <code>idEstadoPlanilla</code>, <code>nombreEstadoPlanilla</code>, <code>periodoLiquidacion</code>, <code>formaElaboracion</code>, <code>modalidad</code>, <code>fechaModificacion</code>, <code>fechaCreacion</code>, <code>idSoiPlanillaApte</code>, <code>idSoiAportante</code>, <code>superaCantidadCztesPeriodo</code>, <code>pagoDirectoPSE</code>, <code>asociadaArchivo</code>, <code>omitirCopiadoPlanillas</code>, <code>omitirDivisionPlanillas</code>, <code>consultaPlanillaZResponse</code>, <code>exception</code>, <code>idSoiAportanteAdscrito</code>, <code>idSoiTpPlanilla</code>, <code>numeroPlanillaReferida</code>, <code>nextDay</code>, <code>tiempoEjb0/1</code>, <code>razonSocialApte</code>, <code>contieneAsistidas</code>, <code>seleccionado</code></td>
+                    <td>varios</td>
+                    <td>Declarados en el DTO; <span class="badge-not-found">NO ENCONTRADO</span> seteo específico en el flujo de copiado (algunos los llenan otros flujos)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="sec-2-3">2.3 Qué permite conocer el resultado de cada planilla copiada</h3>
+        <p>Del retorno de <code>guardarPlanillaAportante</code> (<code>InformacionPlanillaDTO</code>) + mutaciones sobre el <code>CopiarPlanillasDTO</code> en <code>CopiarPlanillasPaso2Action</code>:</p>
+        <ul>
+            <li><strong><code>idSoiPlanilla</code></strong> real de la copia persistida &rarr; <code>copiarPlanillasDTO.setIdSoiPlanilla(...)</code>.</li>
+            <li><strong><code>numeroPlanilla</code></strong> asignado (electrónica o asistida) &rarr; <code>copiarPlanillasDTO.setNumeroPlanillaElectronica(...)</code>.</li>
+            <li><strong><code>cantidadCotizantes</code></strong> &rarr; <code>copiarPlanillasDTO.setNumeroEmpleados(...)</code>.</li>
+            <li><strong><code>fechaLimitePago</code></strong> calculada (RN010/EP892) &rarr; <code>copiarPlanillasDTO.setFechaLimitePago(...)</code>.</li>
+            <li><strong><code>valorTotal</code>/<code>valorMora</code></strong> de la copia (de <code>InformacionPlanillaDTO</code>, aunque el DTO de copia ya traía <code>valorPagoSinMora</code> calculado en Paso1).</li>
+            <li><strong>Revalidación</strong>: si <code>!isAdministradorasValidas || isRequiereRevalidacion || isNecesitaRegistroPrevio4(...)</code> &rarr; <code>planillaRegistroDG.registrarRevalidacionActivos(idSoiPlanilla)</code> (líneas 5817-5822).</li>
+            <li><strong>Pago por otros canales</strong>: si la planilla base estaba <code>PENDIENTE_PAGO_OTROS_CANALES</code> y no tiene <code>restriccionCtaBc</code>, se invoca <code>PagoPseDG.realizarPagoOtrosCanales(...)</code> y el número devuelto reemplaza <code>numeroPlanillaElectronica</code> (líneas 5765-5777).</li>
+            <li><strong>Trazabilidad</strong>: <code>planillaRegistroDG.registrarTrazabilidadPlanilla(...)</code> por cada copia (línea 5786) + evento de usuario <code>PE_COPIAR_PLANILLA</code> con planilla base y números generados (líneas 5839-5844).</li>
+        </ul>
+
+        <!-- SECCIÓN 3 -->
+        <h2 id="sec-3">3. Reglas de transformación</h2>
+
+        <h3 id="sec-3-1">3.1 Generación de la copia en <code>LiquidacionPlanillaMngr.copiarPlanillaAPartirDeBase</code></h3>
+        <div class="source-tag">
+            <strong>Archivo:</strong> <code>pla.biz/src/main/java/com/ach/pla/biz/mngr/LiquidacionPlanillaMngr.java:4851-5008</code> (evidencia verbatim en <code>copiar-planillas-evidencia-soi2.md</code> §7).
+        </div>
+        <p><strong><code>aportanteCopia(planillaAportanteDTO)</code></strong> (líneas 5315-5328) — clona la planilla base y <strong>resetea</strong>:</p>
+        <pre><code>planillaAportanteDTOCopia.setIdSoiPlanilla(null);
+planillaAportanteDTOCopia.setIdSoiPlanillaAsociada(null);
+planillaAportanteDTOCopia.setFechaCreacion(null);
+planillaAportanteDTOCopia.setFechaDePagoEfectiva(null);
+planillaAportanteDTOCopia.setNumeroPlanillaElectronica(null);
+planillaAportanteDTOCopia.setNumeroPlanillaAsistida(null);
+planillaAportanteDTOCopia.setNumeroPlanillaAsocida(null);
+planillaAportanteDTOCopia.setValorPagado(null);</code></pre>
+
+        <p><strong>Por cada periodo</strong> del rango <code>PeriodoLiquidacionNoSaludDesde..Hasta</code> (while, líneas ~4868-5007):</p>
+        <ul>
+            <li><code>setPeriodoLiquidacionNoSalud(periodoNoSaludAux)</code> y <code>setPeriodoLiquidacionSalud(periodoSaludAux)</code> (líneas 4905-4906) — avanzan mes a mes con <code>sumarMesPeriodo</code>.</li>
+            <li><code>setActualizaArpAportante(false)</code> (línea 4907).</li>
+            <li><strong>ARP del aportante (EP747)</strong>: para planillas tipo E/S consulta <code>consultarPUB200AFRLAportante</code>; si la ARP del registro difiere de la de la planilla y el periodo &gt;= fecha vinculación, actualiza <code>InformacionAportantePlanillaDTO</code> (<code>idSoiAdministradoraARP</code>, <code>codAdministradoraARP</code>, <code>nombreARP</code>) y <code>setActualizaArpAportante(true)</code> (líneas ~4915-4945).</li>
+            <li><code>setNumeroTotalCotizantes((long) cotizantesPlanillaCopia.size())</code> (línea ~4948).</li>
+            <li>Totalización: <code>TotalizadorPlanillaMngr.agregarCotizanteAlTotal(cot, false)</code> por cotizante (línea ~4989).</li>
+            <li>Si <code>isActualizaArpAportante</code>, actualiza el aporte ARP de cada cotizante con la nueva ARP (líneas ~4975-4985).</li>
+            <li>Valida cotizante 43 (<code>COTIZANTE_43_NO_APLICA</code>) y cotizante 59 (<code>COTIZANTE_59_NO_APLICA</code>).</li>
+        </ul>
+        <p><strong><code>CopiarPlanillasDTO</code> armado</strong> (líneas 4992-5005): <code>secuencia</code>, <code>tipoPlanilla</code>, <code>valorPagoSinMora</code> (= <code>vlrGranTotal</code>), <code>idSoiPlanilla</code> temporal, <code>periodoSistemaNoSalud/Salud</code>, <code>planillaAportanteDTO</code> copia, <code>planillaCotizanteDTO</code> filtrada por <code>validacionFechaPerSaludCotizantePlanilla</code>.</p>
+
+        <h3 id="sec-3-2">3.2 Transformación en <code>CopiarPlanillasPaso2Action</code> antes de <code>guardarPlanillaAportante</code></h3>
+        <p>Sobre <code>planillaAportanteCopiaDTO</code> (clone de la planilla base del form), por cada selección (líneas 5723-5748 del doc de evidencia):</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Valor asignado</th>
+                    <th>Línea (doc)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>periodoLiquidacionNoSalud</code></td>
+                    <td><code>copiarPlanillasDTO.getPeriodoSistemaNoSalud()</code></td>
+                    <td>5723</td>
+                </tr>
+                <tr>
+                    <td><code>periodoLiquidacionSalud</code></td>
+                    <td><code>copiarPlanillasDTO.getPeriodoSistemaSalud()</code></td>
+                    <td>5724</td>
+                </tr>
+                <tr>
+                    <td><code>formaElaboracionPlanilla</code></td>
+                    <td><code>FormaElaboracionType.COPIADA_POR_PE.getIdFormaElaboracion()</code></td>
+                    <td>5725</td>
+                </tr>
+                <tr>
+                    <td><code>copiaPlanilla</code></td>
+                    <td><code>true</code></td>
+                    <td>5726</td>
+                </tr>
+                <tr>
+                    <td><code>numeroPlanillaActual</code></td>
+                    <td><code>null</code></td>
+                    <td>5727</td>
+                </tr>
+                <tr>
+                    <td><code>numeroPlanillaElectronica</code></td>
+                    <td><code>null</code></td>
+                    <td>5728</td>
+                </tr>
+                <tr>
+                    <td><code>numeroPlanillaAsistida</code></td>
+                    <td><code>null</code></td>
+                    <td>5729</td>
+                </tr>
+                <tr>
+                    <td><code>idSoiPlanilla</code></td>
+                    <td><code>null</code></td>
+                    <td>5730</td>
+                </tr>
+                <tr>
+                    <td><code>idSoiPlanillaAsociada</code></td>
+                    <td><code>null</code></td>
+                    <td>5731</td>
+                </tr>
+                <tr>
+                    <td><code>informacionAportantePlanillaDTO</code></td>
+                    <td><code>copiarPlanillasDTO.getPlanillaAportanteDTO().getInformacionAportantePlanillaDTO()</code></td>
+                    <td>5732</td>
+                </tr>
+                <tr>
+                    <td><code>fechaCreacionPlanillaBase</code></td>
+                    <td><code>planillaAportanteBase.getFechaCreacion()</code> (EP706)</td>
+                    <td>5734</td>
+                </tr>
+                <tr>
+                    <td><code>estadoPlanilla</code></td>
+                    <td><code>GUARDADA</code> si base era <code>PENDIENTE_PAGO_OTROS_CANALES</code> o si <code>restriccionCtaBc &amp;&amp; PENDIENTE_PAGO_OTROS_CANALES</code> (NEC415-Fase2)</td>
+                    <td>5736-5744</td>
+                </tr>
+                <tr>
+                    <td><code>restriccionCtaBc</code></td>
+                    <td><code>false</code> si venía en <code>true</code></td>
+                    <td>5746-5748</td>
+                </tr>
+                <tr>
+                    <td><code>idSoiPlanillaCopia</code></td>
+                    <td><code>idSoiPlanilla</code> de la base (antes de anularlo)</td>
+                    <td>5705</td>
+                </tr>
+                <tr>
+                    <td><code>usuarioCreacion</code> / <code>ipCreacion</code></td>
+                    <td><code>commonUtilities.obtenerInfoUsusario(...)</code> / <code>getIpUsuarioAutenticado(request)</code> (NEC415-Fase2 Qtracker 6408)</td>
+                    <td>5781-5783</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Conservados de la planilla base</strong> (no se tocan en Paso2): tipo de planilla, aportante, forma de presentación, clase de aportante, ARP (salvo EP747), cotizantes (con sus totales ya calculados en Paso1), sucursal, modalidad, etc.</p>
+        <p><strong>Recalculados</strong>: número de planilla (secuencia por operador en <code>almacenarPlanilla</code>), <code>idSoiPlanilla</code>, totales persistidos vía <code>TotalizadorPlanillaMngr</code> dentro de <code>guardarPlanilla</code>, fecha límite de pago (RN010/EP892 en Paso2), cantidad de cotizantes.</p>
+
+        <h3 id="sec-3-3">3.3 Tratamiento de periodos, números, estado, fecha pago, totales y cotizantes</h3>
+        <ul>
+            <li><strong>Periodos</strong>: se copian mes a mes desde <code>PeriodoLiquidacionNoSaludDesde</code> hasta <code>...Hasta</code>; los ocupados (<code>periodosOmitidosCopiaPlanilla</code>) se saltan (<code>validarPeriodoOmitido</code>, líneas 5347-5366). Salud avanza en paralelo (<code>sumarMesPeriodo</code>); si <code>planillasIndependiente</code>, salud = no-salud.</li>
+            <li><strong>Número de planilla</strong>: se anula en la copia (<code>numeroPlanillaElectronica/Asistida/Actual = null</code>) y <code>almacenarPlanilla</code> genera uno nuevo por secuencia del operador (<code>generarNumeroSecuencia(codigoOperadorPila)</code>) salvo que <code>regenerarNumeroPlanilla=false</code> y <code>sobreescribirPlanilla=true</code> (en copiado ambos son <code>false</code>/<code>false</code> &rarr; siempre regenera; <code>guardarPlanillaAportante</code> llama <code>guardarPlanilla(..., null, null, false, false)</code>).</li>
+            <li><strong>Estado</strong>: la copia nace <code>GUARDADA</code> (o <code>PENDIENTE_PAGO_OTROS_CANALES</code> según reglas anteriores); si requiere revalidación se marca vía <code>registrarRevalidacionActivos</code>.</li>
+            <li><strong>Fecha de pago oportuno</strong>: <code>NSOIRNPlanillaBiz.calcularRN010FechaDePagoOportuna</code> &rarr; <code>PlanillaConsultaCoherence.obtenerDiaHabil</code> &rarr; override <code>BeneficioMoraEP892.consultarFechaPagoOportuno</code>; formato <code>dd/MM/yyyy</code> en <code>fechaLimitePago</code>.</li>
+            <li><strong>Totales</strong>: <code>TotalizadorPlanillaMngr</code> recalcula <code>PlanillaTotalesDTO</code> por copia; <code>valorPagoSinMora = vlrGranTotal</code>; <code>InformacionPlanillaDTO.valorTotal/valorMora</code> desde totales.</li>
+            <li><strong>Cantidad de cotizantes</strong>: <code>numeroTotalCotizantes = cotizantesPlanillaCopia.size()</code>; <code>InformacionPlanillaDTO.cantidadCotizantes = cotizantes.size()</code> (post-duplicados).</li>
+        </ul>
+
+        <!-- SECCIÓN 4 -->
+        <h2 id="sec-4">4. Persistencia complementaria</h2>
+
+        <h3 id="sec-4-1">4.1 Cadena de guardado</h3>
+        <div class="source-tag">
+            <code>CopiarPlanillasPaso2Action</code> &rarr; <code>PlanillaRegistroDG.guardarPlanillaAportante</code> &rarr; <code>PlanillaRegistroSvc</code> (EJB) &rarr; <code>PlanillaRegistroMngr.guardarPlanillaAportante</code> (<code>/tmp/nsoi_extract/PlanillaRegistroMngr.java:157-169</code>):
+        </div>
+        <pre><code>planillaAportanteDTO.setModalidadPlanilla(PlanillaConstantes.MODALIDAD_PLANILLA_ELECTRONICA);
+validacionCotizanteMngr.validarCotizantesPlanillaNMismoPeriodo(planillaAportanteDTO, cotizantes);
+informacionPlanillaDTO = this.guardarPlanilla(planillaAportanteDTO, cotizantes, null, null, false, false);
+planillaAportanteDTO.setIdSoiPlanilla(informacionPlanillaDTO.getIdSoiPlanilla());
+informacionPlanillaDTO.setCotizantes(cotizantes);</code></pre>
+
+        <p><code>guardarPlanilla</code> (líneas 346-878) ejecuta, en orden:</p>
+        <ol>
+            <li><code>almacenamientoPlanillaHelper.validarEstadoActualPlanilla(...)</code> — solo planillas tipo N.</li>
+            <li><code>cambiarDatosPorAportante14(...)</code> — si aportante tipo 14.</li>
+            <li><code>almacenamientoPlanillaHelper.eliminarCotizantesDuplicados(...)</code>.</li>
+            <li><code>TotalizadorPlanillaMngr</code> + validaciones (actividad ARL, cotizantes múltiples, FSP, etc.).</li>
+            <li><code>almacenamientoPlanillaHelper.almacenarPlanilla(...)</code> &rarr; <code>crearplanillaVO</code> + <code>OraclePlanillaDAO.insertar</code> &rarr; <strong>INSERT <code>SOI_PLANILLA</code></strong> (número por secuencia).</li>
+            <li><code>almacenamientoPlanillaHelper.almacenarPlanillaAportante(idSoiPlanilla, dto)</code> &rarr; <code>crearplanillaApteVO</code> + <code>OraclePlanillaApteDAO.insertar</code> &rarr; <strong>INSERT <code>SOI_PLANILLA_APTE</code></strong>.</li>
+            <li><code>editarPlanillaAportanteLey1607</code> — solo si <code>sobreescribirPlanilla</code>.</li>
+            <li><code>NormatividadROE.actualizarNormatividad1233Aportante</code> — solo si <code>usuarioSolicitaCambioNormatividad</code>.</li>
+            <li><code>almacenamientoPlanillaHelper.almacenarTotalesPlanilla(idSoiPlanilla, planillaTotalesDTO)</code> &rarr; descompone en <code>almacenarTotalesPension/Salud/ARP/Parafiscales</code> y ejecuta <strong><code>OracleAlmacenadoTotalesPlanillaSTP.ejecutarProcedimiento(AlmacenadoTotalesDTO)</code></strong> (stored procedure con <code>PlanillaTotalPenVO</code>, <code>PlanillaTotalSalVO</code>, <code>PlanillaTotalArpVO</code>, <code>PlanillaTotalPfVO</code>).</li>
+            <li><code>almacenamientoPlanillaHelper.almacenarCotizantesPlanilla(...)</code> &rarr; inserta en <strong><code>SOI_PLANILLA_CZTE</code></strong>, <strong><code>SOI_PLANILLA_CZTE_PF</code></strong>, <strong><code>SOI_PLANILLA_CZTE_SS</code></strong>, <strong><code>SOI_PLANILLA_CZTE_NV</code></strong> (vía <code>OraclePlanillaCzteDAO</code>, <code>OraclePlanillaCztePfDAO</code>, <code>OraclePlanillaCzteSsDAO</code>, <code>OraclePlanillaCzteNvDAO</code>).</li>
+            <li><code>validacionPlanillaMngr.validarNumeroPlanilla(idSoiPlanilla)</code>.</li>
+            <li><code>OracleValidacionPlanillaSTP.execute(idSoiPlanilla)</code> — marca/valida estado (excepto tipo N).</li>
+            <li>Si <code>isAplicaMarcaRevalidacionPnlla</code> &rarr; <code>registrarRevalidacionActivos(id, "NEC575-"+id, INACTIVO, INACTIVO, INACTIVO)</code>.</li>
+            <li><code>registrarValidacionObligatoriaPeriodoAnteriorEP706(numeroElectronica, dto)</code> — si hay número electrónico.</li>
+        </ol>
+
+        <h3 id="sec-4-2">4.2 Operaciones posteriores al guardado (desde <code>CopiarPlanillasPaso2Action</code>)</h3>
+        <p>Por cada copia persistida, en este orden:</p>
+        <ol>
+            <li><code>liquidacionCotizanteDG.validarVigenciaAdminCopiaPnllas(planillaAportanteCopiaDTO, cotizantes)</code> &rarr; <code>isAdministradorasValidas</code> (vigencia de administradoras de los cotizantes).</li>
+            <li><code>isPlanillaRequiereRevalidacion(...)</code> &rarr; <code>isRequiereRevalidacion</code>, evaluando:
+                <ul>
+                    <li><code>isNecesitaRegistroPrevio(TC_21)</code> (parámetro <code>NECESITA_REGISTRO_PREVIO</code> del tipo de cotizante) + <code>existeCotizanteXbyIdPlanilla(TC_21)</code>.</li>
+                    <li><code>validacionPlanillaJDG.isRequiereRevalidacionPlanillaJ(...)</code>.</li>
+                    <li><code>isNecesitaRevalidacionCotizante51</code> (TC_51 + parámetro <code>PERIODO_COTIZANTE51</code>).</li>
+                    <li><code>isNecesitaRevalidacionCotizante43</code> (TC_43 + <code>EP773Validaciones.periodoLiquidacionAplicaReformaPensional</code>; lanza <code>COTIZANTE_43_NO_APLICA</code>).</li>
+                    <li><code>isNecesitaRevalidacionSubtipo34_12</code> (reporte personas no autorizadas + subtipo 12 pensionados vía <code>NSOIRNCotizanteBiz</code>).</li>
+                    <li><code>isNecesitaRevalidacionActividadEconomicaArl</code> (EP692-08: aporte ARP &gt; 0 con actividad <code>"0000000"</code> o cambio de <code>aplicaActividadEconomicaArl</code>).</li>
+                    <li><code>EP714Cotizante.requiereRevalidacion(...)</code>.</li>
+                </ul>
+            </li>
+            <li>Si <code>!isRequiereRevalidacion &amp;&amp; isAdministradorasValidas &amp;&amp; planillaBasePendientePagoOtrosCanales &amp;&amp; !planillaBaseRestriccionCtaBc</code>: <code>PagoPseDG.realizarPagoOtrosCanales(usuario, idSoiPlanilla, idSoiEntidadFinanciera, codigoOperador)</code> &rarr; número de planilla por PSE.</li>
+            <li><code>planillaRegistroDG.registrarTrazabilidadPlanilla(planillaAportanteCopiaDTO, informacionPlanillaDTO, null)</code> &rarr; <code>AlmacenamientoPlanillaHelper.registrarTrazabilidadPlanilla</code> (líneas 116-260 de <code>/tmp/nsoi_extract/AlmacenamientoPlanillaHelper.java</code>): construye <code>PlanillaLogDTO</code> con <code>PlanillaEventoLog.CREAR_PLANILLA_PE</code> (o <code>EDITAR_PLANILLA_PE</code> si sobreescribir), atributos <code>NUMERO_ASIGNADO</code>, <code>NUMERO_COTIZANTES</code>, <code>VALOR_TOTAL_APORTES</code>, <code>VALOR_MORA</code>, <code>VALOR_TOTAL_PLANILLA</code>, <code>FORMA_CREACION</code>, <code>PERIODO_LIQUIDACION_SALUD/NOSALUD</code>, <code>SUCURSAL_DEPENDENCIA</code>, <code>NOVEDADES_OMITIDAS_REG_A_PNLLA_N</code>, <code>VALIDADA_POR_AUTOCORRECTOR=NO</code>, y llama <code>TrazabilidadRegistroDG.registrarEventoPlanilla(planillaLogDTO)</code> (escribe en tablas de auditoría/trazabilidad de planillas — <code>SOI_PLANILLA_LOG</code>/tablas de eventos; nombre exacto de tabla <span class="badge-not-found">NO ENCONTRADO</span> en el código revisado, la escritura es vía <code>TrazabilidadRegistroDG</code> &rarr; capa <code>aud.biz</code>).</li>
+            <li><code>copiarPlanillasDTO.setNumeroEmpleados(cantidadCotizantes)</code>, <code>setIdSoiPlanilla(id real)</code>, <code>setFechaLimitePago(...)</code>, <code>setSecuencia(secuencia++)</code>.</li>
+            <li>Si <code>!isAdministradorasValidas || isRequiereRevalidacion</code> &rarr; <code>planillaRegistroDG.registrarRevalidacionActivos(idSoiPlanilla)</code> &rarr; <code>OracleRevalidacionPlanillaActivoSTP.execute(idSoiPlanilla)</code> (marca la planilla para revalidación de activos).</li>
+            <li>Si <code>isNecesitaRegistroPrevio4(cotizantes)</code> (subtipo 4 + <code>requiereRegistroPrevioDesdeDao</code>) &rarr; segunda llamada a <code>registrarRevalidacionActivos</code>.</li>
+        </ol>
+
+        <h3 id="sec-4-3">4.3 Transacciones y errores parciales</h3>
+        <ul>
+            <li><strong>Transacción</strong>: <code>PlanillaRegistroMngr</code> extiende <code>CommonMngr</code> y usa <code>getConnection()</code> (conexión JTA/EJB del contenedor). <span class="badge-not-found">NO ENCONTRADO</span> <code>setAutoCommit</code> ni <code>commit/rollback</code> explícitos en <code>guardarPlanilla</code>/<code>guardarPlanillaAportante</code>: la atomicidad depende del contenedor (EJB CMT). Si el EJB es <code>REQUIRED</code>, cada <code>guardarPlanillaAportante</code> es una transacción independiente &rarr; <strong>errores parciales posibles entre copias</strong> (una copia puede quedar persistida aunque otra falle).</li>
+            <li><strong>Errores parciales en Paso2</strong>: el <code>for</code> sobre <code>seleccionado</code> envuelve cada iteración en <code>try/catch (IndexOutOfBoundsException)</code> solamente (línea ~5825); una <code>ApplicationException</code> de <code>guardarPlanillaAportante</code> <strong>aborta todo el execute</strong> (<code>catch (ApplicationException appExc)</code> &rarr; <code>manejarExcepcion</code>), por lo que las copias ya persistidas en iteraciones anteriores <strong>permanecen</strong> (no hay rollback de las anteriores dentro del mismo request).</li>
+            <li><strong>Periodo duplicado en caliente</strong>: <code>existePlanillaMismoPeriodo</code> &rarr; <code>planillaConsultaDG.validarPlanillaPeriodoAportante</code> retorna número de planilla existente; si existe, se agrega a <code>periodosExistentes</code> y se hace <code>continue</code> (no se persiste esa copia, no es error).</li>
+            <li>Si <code>pageTableDTO</code> final queda vacío &rarr; error <code>copiarPlanilla.validacion.planilla.periodo</code> con los periodos existentes.</li>
+        </ul>
+
+        <!-- SECCIÓN 5 -->
+        <h2 id="sec-5">5. Validaciones</h2>
+
+        <h3 id="sec-5-1">5.1 Validaciones de pantalla (Struts <code>validate</code>)</h3>
+        <p><strong><code>CopiarPlanillasPaso1Form.validate</code></strong> (<code>CopiarPlanillasPaso1Form.java:56-98</code>):</p>
+        <ul>
+            <li><code>periodoLiqOtrosSubsAnnioDesde/MesDesde</code> y <code>...Hasta</code> obligatorios &rarr; <code>copiarPlanilla.validacion.periodo</code>.</li>
+            <li>Periodo desde &gt; hasta &rarr; <code>copiarPlanilla.validacion.periodoDesdeMayor</code>.</li>
+            <li>Año de salud &gt; año actual &rarr; <code>copiarPlanilla.validacion.periodo.futuro</code>.</li>
+            <li>Rango &gt; 12 meses &rarr; <code>copiarPlanilla.validacion.periodo.hastaDoceMeses</code> (<code>CommonUtilities.isRangoMesesValido(...,12)</code>).</li>
+            <li>Periodo desde &lt; periodo de la planilla base &rarr; <code>copiarPlanilla.validacion.periodoDesdeMenor</code> (<code>CommonUtilities.periodoMayorPnllaBase</code>).</li>
+            <li><code>validacionDatosPlanillaCopia()</code> setea los <code>PeriodoType</code> en el DTO.</li>
+        </ul>
+        <p><strong><code>CopiarPlanillasPaso2Form.validate</code></strong>: selección vacía &rarr; <code>copiarPlanilla.paso2.validarCheck</code>.</p>
+
+        <h3 id="sec-5-2">5.2 Validaciones de planilla base y periodos ocupados (núcleo)</h3>
+        <ul>
+            <li><strong><code>LiquidacionPlanillaMngr.validarPeriodosPlanillaCopia(PlanillaAportanteDTO)</code></strong> (<code>LiquidacionPlanillaMngr.java:3000-3027</code>): itera periodos desde/hasta y para cada uno llama <code>validarPeriodoOmitido</code> + <code>planillaConsultaMngr.validarPlanillaPeriodoAportante</code> para detectar periodos ya ocupados &rarr; retorna <code>List&lt;PeriodoType&gt; periodosOmitidos</code>.</li>
+            <li><strong><code>PlanillaConsultaMngr.validarPlanillaPeriodoAportante</code></strong> (<code>PlanillaConsultaMngr.java:3626-3630</code>) &rarr; <code>OraclePlanillaConsultadaROE.consultarPlanillaMismoPeriodoAportante</code> &rarr; retorna número de planilla existente o <code>null</code>.</li>
+            <li><strong><code>CopiarPlanillasPaso2Action.existePlanillaMismoPeriodo</code></strong> (líneas 5864-5868): revalida antes de persistir cada copia.</li>
+            <li><strong><code>LiquidacionPlanillaMngr.permiteCopiadoPlanillas</code></strong> (líneas 5369-5374): <code>NSOIRNPlanilla.permiteCopiadoPlanillas(codigoTpPlanilla, estadoPlanilla, null, fechaCreacion, TipoAplicacionType.SOPORTE_APORTANTE, modalidadPlanilla)</code> — regla que decide si la planilla base es copiable.</li>
+            <li><strong><code>GeneralValidador.validarFechaCreacionPlanillaCopia</code></strong> (evidencia §5.3 del doc principal): valida fecha de creación para copia.</li>
+        </ul>
+
+        <h3 id="sec-5-3">5.3 Validaciones dentro de <code>copiarPlanillaAPartirDeBase</code> / <code>isCotizantesValidos</code></h3>
+        <ul>
+            <li><code>validacionPlanillaMngr.isPeriodoPermitidoBenfecioParafiscalesCovid</code> y <code>isPeriodoPermitidoBenfecioPensionCovid</code> por periodo.</li>
+            <li><code>isCotizantesValidos(cotizantes, limpiezaBduaActivo, planillaAportanteDTOCopia, cotizantesPlanillaCopia)</code> (línea 5085) — reglas de cotizantes (NEC415-Fase2 salario mínimo, EP714, EP692-08, EP773, EP802, EP878, NEC493, NEC515, NEC545, NEC566, NEC625, NEC668/EP707, PUB205RROF — detalle en doc principal §7).</li>
+            <li><code>puedeAgregarPlanillaCot51</code> (EP878) — decide si la copia con cotizante 51 se agrega.</li>
+            <li><code>validacionFechaPerSaludCotizantePlanilla</code> — filtra cotizantes por fecha de periodo salud.</li>
+            <li>Excepciones: <code>PLANILLA_BASE_NO_CUMPLE_COPIA_PLANILLAS</code>, <code>COTIZANTE_43_NO_APLICA</code>, <code>COTIZANTE_59_NO_APLICA</code>.</li>
+        </ul>
+
+        <h3 id="sec-5-4">5.4 Validaciones post-guardado (Paso2)</h3>
+        <p>Ver §4.2 puntos 1-2: <code>validarVigenciaAdminCopiaPnllas</code>, <code>isPlanillaRequiereRevalidacion</code> (TC_21 registro previo, PlanillaJ, TC_51, TC_43, subtipos 34/12, actividad ARL, EP714), <code>isNecesitaRegistroPrevio4</code> (subtipo 4).</p>
+
+        <h3 id="sec-5-5">5.5 Reglas especiales de cotizantes (Paso1)</h3>
+        <ul>
+            <li><strong>EP883 / TC75</strong>: <code>EP883Cotizante75.aportanteEnPermaSub</code> + <code>validarCotizante75</code> (excepción <code>codigo == 13303</code> no excluye la copia).</li>
+            <li><strong>TC12 (SENA etapa lectiva)</strong>: excluye copias con periodo &gt;= <code>2025-07-01</code>.</li>
+            <li><strong>EP729</strong>: <code>EP729PlanillaJ.depurarPlanillas(planillasCopia, planillaAportanteDTO)</code>.</li>
+        </ul>
+
+        <!-- SECCIÓN 6 -->
+        <h2 id="sec-6">6. Datos NO ENCONTRADOS / pendientes de verificación</h2>
+        <ul>
+            <li><strong>Endpoint REST</strong>: no existe en SOI 2.0; el contrato real es Struts + sesión.</li>
+            <li><strong>Tabla exacta de trazabilidad</strong>: la escritura pasa por <code>TrazabilidadRegistroDG.registrarEventoPlanilla</code> (<code>aud.biz</code>); el nombre físico de la tabla no se verificó en este documento (ver <code>aud.biz/xml/SOI_*_LOG.xml</code> en el repo para confirmarla).</li>
+            <li><strong><code>numeroPlanillaAsistida</code> y <code>estadoPlanilla</code> en <code>CopiarPlanillasDTO</code></strong>: tienen getters/setters pero <strong>no se encontraron setters invocados</strong> en el flujo de copiado (la modalidad forzada es <code>MODALIDAD_PLANILLA_ELECTRONICA</code>, por lo que el número relevante es <code>numeroPlanillaElectronica</code>).</li>
+            <li><strong><code>InformacionPlanillaDTO</code></strong>: varios campos (<code>fechaPagoEfectiva</code>, <code>idEstadoPlanilla</code>, <code>nombreEstadoPlanilla</code>, <code>periodoLiquidacion</code>, <code>formaElaboracion</code>, <code>modalidad</code>, <code>idSoiPlanillaApte</code>, <code>idSoiAportante</code>, <code>pagoDirectoPSE</code>, <code>asociadaArchivo</code>, <code>omitirCopiadoPlanillas</code>, <code>omitirDivisionPlanillas</code>, <code>consultaPlanillaZResponse</code>, <code>exception</code>, <code>idSoiAportanteAdscrito</code>, <code>idSoiTpPlanilla</code>, <code>numeroPlanillaReferida</code>, <code>nextDay</code>, <code>tiempoEjb0/1</code>, <code>razonSocialApte</code>, <code>contieneAsistidas</code>, <code>seleccionado</code>) están declarados pero su seteo en este flujo específico es <span class="badge-not-found">NO ENCONTRADO</span> (probablemente los llenan otros flujos de consulta).</li>
+            <li><strong>Control transaccional explícito</strong>: no hay <code>commit/rollback</code> manual en la cadena; depende de CMT del EJB. Marcado como comportamiento inferido, no verbatim.</li>
+        </ul>
+    </main>
+</div>
+</body>
+</html>
