@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copiar Planillas SOI 2.0 — Persistencia de la planilla copiada</title>
+    <style>
+        :root {
+            --primary: #0f4c81;
+            --primary-light: #e8f1f8;
+            --secondary: #2b6cb0;
+            --text-dark: #1a202c;
+            --text-muted: #4a5568;
+            --bg-body: #f7fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --code-bg: #edf2f7;
+            --warning-bg: #fffaf0;
+            --warning-border: #dd6b20;
+            --warning-text: #9c4221;
+            --success-bg: #f0fff4;
+            --success-border: #38a169;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.65;
+            color: var(--text-dark);
+            background-color: var(--bg-body);
+            margin: 0;
+            padding: 0;
+        }
+        .layout {
+            display: flex;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            gap: 2rem;
+        }
+        .sidebar {
+            width: 290px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 2rem;
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .sidebar h2 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar li {
+            margin-bottom: 0.4rem;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.86rem;
+            display: block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.15s, color 0.15s;
+        }
+        .sidebar a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        .sidebar .sub-item {
+            padding-left: 1.25rem;
+            font-size: 0.81rem;
+            color: var(--text-muted);
+        }
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 1.85rem;
+            margin-top: 0;
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.75rem;
+        }
+        h2 {
+            color: var(--primary);
+            font-size: 1.45rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.4rem;
+        }
+        h3 {
+            color: var(--secondary);
+            font-size: 1.15rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+        blockquote {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            margin: 1.5rem 0;
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+            color: var(--text-dark);
+        }
+        blockquote p {
+            margin: 0.35rem 0;
+        }
+        .callout-warn {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            color: var(--warning-text);
+            padding: 0.85rem 1.15rem;
+            border-radius: 0 6px 6px 0;
+            margin: 1rem 0;
+            font-size: 0.94rem;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: var(--code-bg);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.87em;
+            color: #c53030;
+        }
+        pre {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 1.15rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.25rem 0;
+            font-size: 0.89rem;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.65rem 0.85rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        ul, ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        li {
+            margin-bottom: 0.45rem;
+        }
+        .source-tag {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #94a3b8;
+        }
+        .checklist {
+            background-color: var(--success-bg);
+            border: 1px solid #c6f6d5;
+            border-left: 4px solid var(--success-border);
+            border-radius: 6px;
+            padding: 1.25rem 1.5rem;
+        }
+        .checklist ol {
+            margin: 0;
+        }
+        @media (max-width: 900px) {
+            .layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+            }
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <nav class="sidebar">
+        <h2>Contenido</h2>
+        <ul>
+            <li><a href="#sec-1">1. Flujo general de guardado</a></li>
+            <li><a href="#sec-1-1" class="sub-item">1.1 Cadena completa</a></li>
+            <li><a href="#sec-1-2" class="sub-item">1.2 Transacción y rollback</a></li>
+            <li><a href="#sec-2">2. Procedimientos almacenados</a></li>
+            <li><a href="#sec-2-1" class="sub-item">2.1 Respuesta directa</a></li>
+            <li><a href="#sec-2-2" class="sub-item">2.2 Firma fun_soi_secu_planilla</a></li>
+            <li><a href="#sec-2-3" class="sub-item">2.3 Firmas archivo plano (ref)</a></li>
+            <li><a href="#sec-2-4" class="sub-item">2.4 Resolución administradoras</a></li>
+            <li><a href="#sec-3">3. Tablas TMP (no aplican)</a></li>
+            <li><a href="#sec-4">4. Tablas definitivas (INSERTs)</a></li>
+            <li><a href="#sec-4-1" class="sub-item">4.1 SOI_PLANILLA</a></li>
+            <li><a href="#sec-4-2" class="sub-item">4.2 SOI_PLANILLA_APTE</a></li>
+            <li><a href="#sec-4-3" class="sub-item">4.3 SOI_PLANILLA_CZTE</a></li>
+            <li><a href="#sec-4-4" class="sub-item">4.4 SOI_PLANILLA_CZTE_NV</a></li>
+            <li><a href="#sec-4-5" class="sub-item">4.5 CZTE_SS y CZTE_PF</a></li>
+            <li><a href="#sec-4-6" class="sub-item">4.6 SOI_PLANILLA_TOTAL_*</a></li>
+            <li><a href="#sec-4-7" class="sub-item">4.7 Estado final y retorno</a></li>
+            <li><a href="#sec-5">5. Validaciones y RN previas</a></li>
+            <li><a href="#sec-5-1" class="sub-item">5.1 copiarPlanillaAPartirDeBaseRN</a></li>
+            <li><a href="#sec-5-2" class="sub-item">5.2 Períodos y omisión</a></li>
+            <li><a href="#sec-5-3" class="sub-item">5.3 Totales, mora e IBC</a></li>
+            <li><a href="#sec-5-4" class="sub-item">5.4 Estado, usuario e IP</a></li>
+            <li><a href="#sec-6">6. Diferencias con archivo plano</a></li>
+            <li><a href="#sec-7">7. Checklist fidelidad NSOI 3.0</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <h1>Copiar Planillas SOI 2.0 — Persistencia de la planilla copiada</h1>
+
+        <blockquote>
+            <p>Documento de referencia para replicar el flujo en NSOI 3.0.</p>
+            <p>Hallazgo principal: <strong>el copiado de planillas NO usa el procedimiento almacenado <code>PCK_ALMACENAMIENTO_ARCHIVOS.guardarPlanillaArchivo</code> ni las tablas <code>TMP_*</code></strong>.</p>
+            <p>Esa cadena es exclusiva del <strong>archivo plano</strong>. La copia persiste directamente en las tablas definitivas (<code>SOI_PLANILLA</code>, <code>SOI_PLANILLA_APTE</code>, <code>SOI_PLANILLA_CZTE</code>, <code>SOI_PLANILLA_CZTE_NV</code>, <code>SOI_PLANILLA_CZTE_SS</code>, <code>SOI_PLANILLA_CZTE_PF</code>, <code>SOI_PLANILLA_TOTAL_*</code>) mediante DAOs JDBC, dentro de una única conexión.</p>
+        </blockquote>
+
+        <!-- SECCIÓN 1 -->
+        <h2 id="sec-1">1. Flujo general de guardado</h2>
+
+        <h3 id="sec-1-1">1.1 Cadena completa (action &rarr; manager &rarr; DAO &rarr; DB)</h3>
+        <pre><code>CopiarPlanillasPaso1Action.execute                                   [liq.web]
+  └─ liquidacionPlanillaDG.validarPeriodosPlanillaCopia(dto)         → períodos ya ocupados
+  └─ liquidacionPlanillaDG.copiarPlanillaAPartirDeBaseRN(dto)        → Collection&lt;CopiarPlanillasDTO&gt; (en memoria)
+        └─ LiquidacionPlanillaBean.copiarPlanillaAPartirDeBaseRN     [pla.biz/ejb]
+             └─ LiquidacionPlanillaMngr.copiarPlanillaAPartirDeBaseRN   (línea 872)
+                  └─ LiquidacionPlanillaMngr.copiarPlanillaAPartirDeBase (línea 920)
+
+CopiarPlanillasPaso2Action.execute  (botón "Siguiente")              [liq.web]
+  └─ por cada planilla seleccionada en getSeleccionado():
+        ├─ existePlanillaMismoPeriodo() → planillaConsultaDG.validarPlanillaPeriodoAportante()
+        └─ planillaRegistroDG.guardarPlanillaAportante(dtoCopia, cotizantes)
+             └─ PlanillaRegistroBean.guardarPlanillaAportante        [pla.biz/ejb] (abre ConnectionFactory.getConnection())
+                  └─ PlanillaRegistroMngr.guardarPlanillaAportante   (línea 157)
+                       └─ PlanillaRegistroMngr.guardarPlanilla       (línea 346, privado)
+                            ├─ almacenamientoPlanillaHelper.almacenarPlanilla()
+                            │     ├─ crearplanillaVO()                (AlmacenamientoPlanillaHelper:1182)
+                            │     ├─ generarNumeroSecuencia(codOperador)
+                            │     │     └─ OracleSecuenciaPlanillaSTP → PCK_SOI_SECUENCIA_PLANILLAS.fun_soi_secu_planilla(?)
+                            │     └─ OraclePlanillaDAO.insertar()    → INSERT INTO SOI_PLANILLA (SEQ_SOI_PLANILLA.NEXTVAL)
+                            ├─ almacenarPlanillaAportante()          → OraclePlanillaApteDAO.insertar() → SOI_PLANILLA_APTE
+                            ├─ almacenarTotalesPlanilla()            → VOs por subsistema + PCK_ALM_TOTALES.almacenar(?)
+                            ├─ almacenarCotizantesPlanilla()         → por cotizante: insertarCotizante()
+                            │     ├─ OraclePlanillaCzteDAO.insertar()    → SOI_PLANILLA_CZTE (SEQ_SOI_PLANILLA_CZTE)
+                            │     ├─ OraclePlanillaCzteNvDAO.insertar()  → SOI_PLANILLA_CZTE_NV (SEQ_SOI_PLANILLA_CZTE_NV)
+                            │     ├─ OraclePlanillaCzteSsDAO.insertar()  → SOI_PLANILLA_CZTE_SS
+                            │     └─ OraclePlanillaCztePfDAO.insertar()  → SOI_PLANILLA_CZTE_PF
+                            ├─ validacionPlanillaMngr.validarNumeroPlanilla()
+                            └─ OracleValidacionPlanillaSTP.execute() → prc_validacion_planilla(idSoiPlanilla)
+                                 (NO se ejecuta para planillas tipo N)
+  └─ (post) pagoPseDG.realizarPagoOtrosCanales()  si la base estaba PENDIENTE_PAGO_OTROS_CANALES
+  └─ (post) planillaRegistroDG.registrarRevalidacionActivos() → prc_marca_revalidacion_activos(?) si aplica</code></pre>
+
+        <h4>Archivos clave</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Capa</th>
+                    <th>Archivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Action paso 1</td>
+                    <td><code>liq.web/src/main/java/com/ach/liquidacion/web/administrarplanillas/CopiarPlanillasPaso1Action.java</code></td>
+                </tr>
+                <tr>
+                    <td>Action paso 2</td>
+                    <td><code>liq.web/src/main/java/com/ach/liquidacion/web/administrarplanillas/CopiarPlanillasPaso2Action.java</code></td>
+                </tr>
+                <tr>
+                    <td>Delegate</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/delegate/PlanillaRegistroDG.java</code> / <code>LiquidacionPlanillaDG.java</code></td>
+                </tr>
+                <tr>
+                    <td>EJB</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/ejb/PlanillaRegistroBean.java</code> / <code>LiquidacionPlanillaBean.java</code></td>
+                </tr>
+                <tr>
+                    <td>Manager RN copia</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/mngr/LiquidacionPlanillaMngr.java</code></td>
+                </tr>
+                <tr>
+                    <td>Manager guardado</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/mngr/PlanillaRegistroMngr.java</code></td>
+                </tr>
+                <tr>
+                    <td>Helper persistencia</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/mngr/AlmacenamientoPlanillaHelper.java</code></td>
+                </tr>
+                <tr>
+                    <td>DAOs</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/dao/OraclePlanillaDAO.java</code>, <code>OraclePlanillaApteDAO.java</code>, <code>OraclePlanillaCzteDAO.java</code>, <code>OraclePlanillaCzteNvDAO.java</code>, <code>OraclePlanillaCzteSsDAO.java</code>, <code>OraclePlanillaCztePfDAO.java</code></td>
+                </tr>
+                <tr>
+                    <td>STP secuencia</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/stp/OracleSecuenciaPlanillaSTP.java</code></td>
+                </tr>
+                <tr>
+                    <td>STP totales</td>
+                    <td><code>pla.biz/src/main/java/com/ach/pla/biz/dao/OracleAlmacenadoTotalesPlanillaSTP.java</code></td>
+                </tr>
+                <tr>
+                    <td>STP validación</td>
+                    <td><code>cfg.biz/src/main/java/com/ach/cfg/biz/stp/OracleValidacionPlanillaSTP.java</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="sec-1-2">1.2 ¿Una sola transacción? ¿Rollback por cotizante?</h3>
+        <ul>
+            <li><code>PlanillaRegistroBean.guardarPlanillaAportante</code> abre <strong>una</strong> <code>ConnectionFactory.getConnection()</code> y la pasa al manager; toda la planilla (encabezado + aportante + totales + todos los cotizantes) corre sobre <strong>la misma conexión JDBC</strong>.</li>
+            <li><strong>No hay <code>commit</code>/<code>rollback</code> explícito</strong> en managers ni DAOs: cada <code>PreparedStatement.executeUpdate()</code> se ejecuta con la semántica del <code>Connection</code> del pool (sin demarcación manual — comportamiento consistente con autocommit / commit implícito por statement). La conexión solo se cierra en el <code>finally</code> del EJB.</li>
+            <li>Si un cotizante falla (<code>SQLException</code> &rarr; <code>SystemException</code>), la excepción <strong>aborta <code>guardarPlanilla</code></strong> y sale del action: en <code>CopiarPlanillasPaso2Action</code> el <code>catch (ApplicationException)</code> externo corta el proceso completo (<code>accion="success"</code>, <code>manejarExcepcion</code>). <strong>No continúa con los siguientes cotizantes ni con las demás planillas seleccionadas</strong> (el único <code>catch</code> interno del bucle es <code>IndexOutOfBoundsException</code>).</li>
+            <li>Consecuencia: ante un fallo a mitad, pueden quedar filas parciales insertadas (la copia <strong>no</strong> es atómica de forma garantizada). No existe un flag tipo <code>GUARDADA_COMPLETAMENTE</code> que se actualice al final del guardado en este flujo (ese flag lo maneja el procedimiento del archivo plano).</li>
+        </ul>
+
+        <!-- SECCIÓN 2 -->
+        <h2 id="sec-2">2. Procedimientos almacenados invocados</h2>
+
+        <h3 id="sec-2-1">2.1 Respuesta directa</h3>
+        <ul>
+            <li><strong>NO</strong>, el copiado <strong>no invoca</strong> <code>PCK_ALMACENAMIENTO_ARCHIVOS.guardarPlanillaArchivo</code> (ni <code>PCK_ALMACENAMIENTO_ARCHIVOS_E.*</code>). Ese procedimiento pertenece únicamente a la cadena del <strong>archivo plano</strong> (<code>arc.biz</code> &rarr; <code>PlanillaRegistroConsultaTempArchivosMngr</code> &rarr; <code>OracleAlmacenamientoArchivosInsertarPlanillaSTP</code>).</li>
+            <li>Los únicos PL/SQL que intervienen en la copia son:</li>
+        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Llamado</th>
+                    <th>Clase Java</th>
+                    <th>Propósito</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><code>{ ? = call PCK_SOI_SECUENCIA_PLANILLAS.fun_soi_secu_planilla(?) }</code></td>
+                    <td><code>OracleSecuenciaPlanillaSTP.execute(codigoOperador)</code></td>
+                    <td>Generar número de planilla (<code>NUMERO_ELECTRONICA</code> para modalidad electrónica). Se salta si <code>INTER_OPE_OTROS_CANALES</code> activo + modalidad asistida (usa <code>InteroperabilidadOtrosCanalesDG.consultarNumeroPlanillaEnSoi1</code>).</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>begin PCK_ALM_TOTALES.almacenar(?) end;</code></td>
+                    <td><code>OracleAlmacenadoTotalesPlanillaSTP.ejecutarProcedimiento(AlmacenadoTotalesDTO)</code></td>
+                    <td>Inserta totales por subsistema en <code>SOI_PLANILLA_TOTAL_PEN/SAL/ARP/PF</code>. El parámetro es un objeto/struct con las 4 colecciones de VOs.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><code>begin prc_validacion_planilla(?) end;</code></td>
+                    <td><code>OracleValidacionPlanillaSTP.execute(idSoiPlanilla)</code></td>
+                    <td>Validación post-guardado de totales/consistencia. <strong>No se invoca para planillas tipo N</strong>. Códigos de error relevantes: <code>9218</code> DIFERENCIAS_TOTALES_PLANILLA, <code>9222/9223</code> topes pago otros canales, <code>20024</code> tarifa inválida.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><code>begin prc_marca_revalidacion_activos(?) end;</code></td>
+                    <td><code>OracleRevalidacionPlanillaActivoSTP.execute(idSoiPlanilla)</code></td>
+                    <td>Solo si la copia requiere revalidación (administradoras inválidas, cotizante 21/51/43, subtipo 34-12, actividad económica ARL, EP714).</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="sec-2-2">2.2 Firma: <code>fun_soi_secu_planilla</code></h3>
+        <div class="source-tag">
+            <strong>Fuente:</strong> <code>database/paquetes/pck_soi_secuencia_planillas.prc</code> (líneas 32, 100).
+        </div>
+        <pre><code>function fun_soi_secu_planilla (in_operador varchar2) return varchar2;</code></pre>
+        <ul>
+            <li><strong>Parámetro:</strong> <code>in_operador</code> = <code>CODIGO_OPERADOR_PILA</code> (VARCHAR2), p. ej. <code>'80'</code> para operador electrónico.</li>
+            <li><strong>Lógica:</strong>
+                <ol>
+                    <li><code>SELECT lpad(n.codigo_numeracion,2,0)</code> de <code>SOI_NUMERACION_OPERADOR</code> + <code>SOI_OPERADOR</code> vigentes.</li>
+                    <li>Lee <code>SOI_VALOR_PARAMETRO</code> <code>id_soi_parametro = 432</code> (<code>nueva_secuencia</code>).</li>
+                    <li><code>EXECUTE IMMEDIATE 'select lpad(SEQ_SOI_OPERADOR_&lt;operador&gt;.nextval, 8 o 7, ''0'') from dual'</code> — <strong>una secuencia por operador</strong> (<code>SEQ_SOI_OPERADOR_80</code>, etc.).</li>
+                    <li>Formato del número:
+                        <ul>
+                            <li>Si parámetro 432 = 1: <code>codigo_numeracion(1 dígito si &lt;10, 2 si &gt;=10) || secuencia(8 dígitos)</code>.</li>
+                            <li>Si 432 &ne; 1: <code>codigo_numeracion || secuencia(7 dígitos) || digito_chequeo_mod11</code>.</li>
+                        </ul>
+                    </li>
+                    <li>Para operador <code>'80'</code> verifica unicidad contra <code>SOI_PLANILLA.NUMERO_ELECTRONICA</code> (MODALIDAD=0) y <code>SOI_PLANILLA_UNIFICADA</code> (bucle hasta encontrar número libre).</li>
+                </ol>
+            </li>
+            <li><strong>Retorna:</strong> VARCHAR2 (~9–10 chars), que se guarda en <code>SOI_PLANILLA.NUMERO_ELECTRONICA</code> (modalidad electrónica, que es la que fuerza <code>guardarPlanillaAportante</code> vía <code>PlanillaConstantes.MODALIDAD_PLANILLA_ELECTRONICA</code>).</li>
+        </ul>
+
+        <h3 id="sec-2-3">2.3 Firmas de la cadena del archivo plano (referencia — <strong>NO usada por la copia</strong>)</h3>
+        <div class="source-tag">
+            <strong>Fuente Java:</strong> <code>arc.biz/src/main/java/com/ach/arc/biz/stp/OracleAlmacenamientoArchivosInsertarPlanillaSTP.java</code>.<br>
+            <strong>Fuente PL/SQL:</strong> <code>database/paquetes/PCK_ALMACENAMIENTO_ARCHIVOS.prc</code>.
+        </div>
+        <pre><code>-- Firma (spec, línea 11) — llamada "completa"
+PROCEDURE PCK_ALMACENAMIENTO_ARCHIVOS.guardarPlanillaArchivo(
+    idTmpPlanilla      IN  TMP_PLANILLA.ID_TMP_PLANILLA%TYPE,        -- pos 1
+    idPlanillaGuardada IN  SOI_PLANILLA.ID_SOI_PLANILLA%TYPE,        -- pos 2
+    modificarPlanilla  IN  NUMBER,                                  -- pos 3 (1=sobreescribir, 0=no)
+    usuario_creacion   IN  VARCHAR2,                                -- pos 4
+    ip_creacion        IN  VARCHAR2,                                -- pos 5
+    idNuevaPlanilla    OUT SOI_PLANILLA.ID_SOI_PLANILLA%TYPE);       -- pos 6
+
+-- Firma (spec, línea 4) — solo encabezado + totales
+PROCEDURE PCK_ALMACENAMIENTO_ARCHIVOS.PRC_ALM_ENCABEZADO_Y_TOTALES(
+    idTmpPlanilla      IN  TMP_PLANILLA.ID_TMP_PLANILLA%TYPE,        -- pos 1
+    idPlanillaGuardada IN  SOI_PLANILLA.ID_SOI_PLANILLA%TYPE,        -- pos 2
+    modificarPlanilla  IN  NUMBER,                                  -- pos 3
+    usuario_creacion   IN  VARCHAR2,                                -- pos 4
+    ip_creacion        IN  VARCHAR2,                                -- pos 5
+    idNuevaPlanilla    OUT SOI_PLANILLA.ID_SOI_PLANILLA%TYPE);       -- pos 6
+
+-- Firma (spec, línea 81) — inserta cotizantes
+PROCEDURE PCK_ALMACENAMIENTO_ARCHIVOS.PRC_INSERTAR_PLA_COT(
+    idSoiPlanillaTmp   IN  TMP_PLANILLA_CZTE.ID_SOI_PLANILLA%TYPE,   -- pos 1
+    idSoiPlanilla      IN  SOI_PLANILLA.ID_SOI_PLANILLA%TYPE,        -- pos 2
+    usuario_creacion   IN  VARCHAR2,                                 -- pos 3
+    ip_creacion        IN  VARCHAR2,                                 -- pos 4
+    p_recalcular_marcas IN NUMBER DEFAULT 0);                        -- pos 5</code></pre>
+
+        <p>Variante "evolución" (paginada), <code>arc.biz/stp/OraclePckAlmArchivosEvol.java</code>:</p>
+        <pre><code>begin PCK_ALM_ARCHIVOS_EVOL.PRC_GUARDAR_PLANILLA(?,?,?,?,?,?); end;      -- mismas 6 pos que guardarPlanillaArchivo
+begin PCK_ALM_ARCHIVOS_EVOL.PRC_INSERTAR_PLA_COT_PAG(?,?,?,?,?,?,?); end; -- (idSoiPlanillaTmp, idSoiPlanilla, numCztes, idxIni, idxFin, usuario, ip)
+begin PCK_ALM_ARCHIVOS_EVOL.PRC_BORRADO_TOTALES(?); end;
+begin PCK_ALM_ARCHIVOS_EVOL.PRC_BORRADO_COTIZANTES_PAG(?,?,?); end;
+begin PCK_ALM_ARCHIVOS_EVOL.PRC_CONSULTAR_IDS_PLANILLA_ACT(?,?,?,?); end;
+begin PCK_ALM_ARCHIVOS_EVOL.ACTUALIZAR_ID_SOI_COTIZANTE_R(?); end;</code></pre>
+
+        <p>Errores mapeados por <code>OracleAlmacenamientoArchivosInsertarPlanillaSTP</code>: <code>20001</code> id TMP no existe en DB &middot; <code>20002</code> planilla no eliminable (estado &ne; GUARDADA) &middot; <code>20003</code> planilla archivo repetida &middot; <code>20005</code> diferencias de totales &middot; <code>20006</code> número de planilla repetido.</p>
+
+        <h3 id="sec-2-4">2.4 Resolución de administradoras</h3>
+        <ul>
+            <li><strong>Copia:</strong> resolución en Java. <code>PlanillaCotizanteDTO</code> llega de <code>planillaConsultaMngr.consultarCotizantesDePlanilla</code> ya con <code>idAdm*/codAdm*</code>. En <code>AlmacenamientoPlanillaHelper.insertarCotizante</code> se reconstruyen <code>nit/codigo</code> vía <code>consultarAdministradorVO(id)</code> / <code>consultarTodasAdministradorasVO(id)</code> (<code>ConfiguracionPlanillaConsultaCoherence.consultarAdministradora</code>). <strong>No hay token <code>ID|CODIGO</code></strong> en este flujo.</li>
+            <li><strong>Archivo plano:</strong> <code>PCK_ALMACENAMIENTO_ARCHIVOS</code> hace <code>inicializarAdministradoras()</code> (caché PL/SQL indexada por <code>COD_ADMINISTRADORA</code> desde <code>SOI_ADMINISTRADORA</code>) y <code>consultarAdministradora(cod)</code> resuelve <code>ID_SOI_ADMINISTRADORA</code>/<code>NIT</code>. La serialización <code>ID|CODIGO</code> sí aparece en parsers de archivo (<code>resolucionAdministradora</code> en <code>arc.biz</code>), no en la copia.</li>
+        </ul>
+
+        <!-- SECCIÓN 3 -->
+        <h2 id="sec-3">3. Tablas de estacionamiento (TMP) — <strong>no aplican a la copia</strong></h2>
+        <ul>
+            <li>La copia <strong>inserta directamente en las definitivas</strong>; nunca toca <code>TMP_PLANILLA</code>, <code>TMP_PLANILLA_APTE</code>, <code>TMP_PLANILLA_CZTE</code> ni <code>TMP_PLANILLA_TOTAL_*</code>.</li>
+            <li>Para referencia (flujo archivo plano):
+                <ul>
+                    <li><code>TMP_PLANILLA_CZTE</code>: <code>arc.biz/dao/OracleTmpPlanillaCztePRC.java</code>, PK <code>ID_TMP_PLANILLA_CZTE</code> = <code>SEQ_TMP_PLANILLA_CZTE.NEXTVAL</code>, <code>REGISTRADO=0</code>, <code>ID_SOI_PLANILLA</code> = id de <code>TMP_PLANILLA</code>.</li>
+                    <li>Columnas <code>GENERAR_AS_ADMINISTRADORA</code>, <code>MORA_*</code>, <code>DISTRIBUCION_EMPLD/EMPLDR</code> existen en <code>TMP_PLANILLA_TOTAL_*</code> y son copiadas tal cual por <code>PRC_ALM_ENCABEZADO_Y_TOTALES</code> a <code>SOI_PLANILLA_TOTAL_*</code>.</li>
+                    <li><strong><code>NOVEDADES</code></strong> (<code>AlmacenarCotizanteTmp.marshallNovedades</code>, <code>arc.biz/r1747/util/AlmacenarCotizanteTmp.java:539</code>): cadena posicional separada por <code>|</code>, 18 posiciones en este orden fijo (vacía si no aplica):
+                        <pre><code>ING|RET|TDE|TAE|TDP|TAP|VSP|VST|SLN|IGE|LMA|VAC|AVP|VCT|IRP|COR|COM|</code></pre>
+                        ING/RET/IRP guardan <code>getRepresentacionNovedadArchivo()</code>; TDE/TAE/TDP/TAP guardan <code>codAdministradora</code>; VSP/VST/LMA/VAC/AVP/VCT/COM guardan la abreviatura; SLN guarda abreviatura solo si <code>TipoRegistroSLNType.X</code>; COR guarda <code>tipoCorreccion.getCodigo()</code>. Novedades <code>isNovedadIgnoradaNec567</code> se omiten.
+                    </li>
+                    <li><strong><code>FECHAS_NOVEDADES</code></strong> (<code>marshallFechasNovedades</code>, línea 766): misma estructura posicional con <code>SimpleDateFormat("yyyy-MM-dd")</code> — ING=fechaInicio, RET=fechaFin, SLN/IGE/LMA/VAC/VCT/IRP guardan pares ini/fin en posiciones dedicadas.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- SECCIÓN 4 -->
+        <h2 id="sec-4">4. Tablas definitivas — mapeo de INSERTs de la copia</h2>
+
+        <h3 id="sec-4-1">4.1 <code>SOI_PLANILLA</code> — <code>OraclePlanillaDAO.insertar</code> (<code>pla.biz/dao/OraclePlanillaDAO.java:62</code>)</h3>
+        <p><code>INSERT INTO SOI_PLANILLA (...) VALUES (..., SEQ_SOI_PLANILLA.NEXTVAL)</code> con <code>RETURNING ID_SOI_PLANILLA</code> vía <code>getGeneratedKeys</code>. Columnas relevantes para la copia:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Columna</th>
+                    <th>Origen en copia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>ID_SOI_PLANILLA</code></td>
+                    <td><code>SEQ_SOI_PLANILLA.NEXTVAL</code></td>
+                </tr>
+                <tr>
+                    <td><code>NUMERO_ELECTRONICA</code></td>
+                    <td><code>fun_soi_secu_planilla(codigoOperadorPila)</code> (modalidad forzada a ELECTRONICA=0)</td>
+                </tr>
+                <tr>
+                    <td><code>ID_ESTADO</code></td>
+                    <td><code>EstadoPlanillaType.GUARDADA</code> (ver §5.4)</td>
+                </tr>
+                <tr>
+                    <td><code>ID_SOI_PNLLA_COPIA</code></td>
+                    <td><code>planillaAportanteDTO.getIdSoiPlanillaCopia()</code> = <strong>id de la planilla base</strong> (trazabilidad, NEC415-Fase2)</td>
+                </tr>
+                <tr>
+                    <td><code>FORMA_ELABORACION</code></td>
+                    <td><code>FormaElaboracionType.COPIADA_POR_PE</code></td>
+                </tr>
+                <tr>
+                    <td><code>ID_SOI_TP_PLANILLA</code>, <code>CODIGO_TP_PLANILLA</code></td>
+                    <td>Copiados de la base</td>
+                </tr>
+                <tr>
+                    <td><code>PERIODO_OTROS</code> / <code>PERIODO_SALUD</code></td>
+                    <td>Período no-salud / salud del mes copiado</td>
+                </tr>
+                <tr>
+                    <td><code>PERIODO_OTROS_VAL</code> / <code>PERIODO_SALUD_VAL</code></td>
+                    <td>Mismos valores</td>
+                </tr>
+                <tr>
+                    <td><code>VALOR_TOTAL</code>, <code>VALOR_MORA</code>, <code>TASA_MORA</code>, <code>DIAS_MORA</code></td>
+                    <td>Del <code>PlanillaTotalesDTO</code> <strong>recalculado</strong> por <code>TotalizadorPlanillaMngr</code></td>
+                </tr>
+                <tr>
+                    <td><code>IVA_COMISION</code>, <code>COMISION</code></td>
+                    <td>0 (solo &ne;0 para tipos M/N)</td>
+                </tr>
+                <tr>
+                    <td><code>FECHA_PAGO_OPORTUNO</code></td>
+                    <td><code>planillaTotalesDTO.getFechaPagoOportuno()</code> (RN010/EP892)</td>
+                </tr>
+                <tr>
+                    <td><code>CALCULAR_MORA</code></td>
+                    <td>1 si <code>isCertificaCalculoInteresesMora</code>, 0 si no</td>
+                </tr>
+                <tr>
+                    <td><code>OMITIR_COPIADO</code> / <code>OMITIR_DIVISION</code></td>
+                    <td>Flags NEC574</td>
+                </tr>
+                <tr>
+                    <td><code>RESTRICCION_CTA_BC</code>, <code>ID_SOI_TP_RESTRICCION_CTA</code></td>
+                    <td>Solo si <code>isRestriccionCtaBc</code> (la copia la pone en <code>false</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>VIGENTE</code></td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><code>CANTIDAD_COTIZANTE</code></td>
+                    <td>Tamaño de la colección de cotizantes</td>
+                </tr>
+                <tr>
+                    <td><code>USUARIO_CREACION</code>, <code>IP_CREACION</code></td>
+                    <td><code>CommonUtilities.obtenerInfoUsusario(usuarioAutenticadoDTO)</code> y <code>getIpUsuarioAutenticado(request)</code> — <strong>usuario logueado e IP del request</strong>, NO los de la planilla base (Paso2Action líneas 201-202)</td>
+                </tr>
+                <tr>
+                    <td><code>ID_SOI_OPERADOR_NUM_OC</code></td>
+                    <td><code>planillaAportanteDTO.getIdOperadorPila()</code></td>
+                </tr>
+                <tr>
+                    <td><code>ID_SOI_RESP_LIQUI_APTE</code></td>
+                    <td><code>idResponsableLiq</code> (null en este flujo)</td>
+                </tr>
+                <tr>
+                    <td><code>ID_TMP_PLANILLA</code></td>
+                    <td>null (no aplica)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="sec-4-2">4.2 <code>SOI_PLANILLA_APTE</code> — <code>almacenarPlanillaAportante</code> &rarr; <code>OraclePlanillaApteDAO.insertar</code></h3>
+        <p>Construido por <code>crearplanillaApteVO</code> (<code>AlmacenamientoPlanillaHelper:1046</code>): identificación del aportante (<code>ID_SOI_TP_IDENTIFICACION</code>, <code>NUMERO_IDENTIFICACION</code>), forma de presentación, tipo aportante/empresa, filial (<code>ID_SOI_FILIAL</code>), <code>ID_SOI_PLANILLA</code> = id recién generado, <code>EXONERADO_*</code>, <code>ID_SOI_APORTANTE</code>, auditoría.</p>
+
+        <h3 id="sec-4-3">4.3 <code>SOI_PLANILLA_CZTE</code> — <code>OraclePlanillaCzteDAO.insertar</code> (línea 46)</h3>
+        <p>Columnas (en orden del INSERT): <code>TRANSICION</code> ('S'/'N' según <code>isCotizanteAplicaTransicion</code>, EP780), <code>MULTIPLES_REGISTROS</code>, <code>CZTE_DIVIDIDO</code>, <code>CZTE_MODIFICADO</code>, <code>LIQUIDACION_SOLO_FSP</code>, <code>FECHA_RADICACION_EXT</code>, identificación principal (N&ordm;/COD/ID tipo id principal), <code>COTIZANTE_LEY1607</code>, <code>ID_GRUPO_COTIZANTE</code>, <code>ID_SOI_COTIZANTE_R</code>, auditoría (<code>IP/FECHA/USUARIO_MODIFICACION</code>, <code>IP/FECHA/USUARIO_CREACION</code>), <code>CORRECCION_MN</code> (R/A/C), <code>SALARIO_INTEGRAL</code>, <code>SALARIO</code>, nombres/apellidos (con <code>cambiarAcentoN</code> según flag BDUA), <code>COD_MUNICIPIO</code>/<code>ID_SOI_MUNICIPIO</code>, <code>COD_SOI_DPTO</code>/<code>ID_SOI_DEPARTAMENTO</code>, subtipo ext/int y tipo cotizante (cód + id), <code>NUMERO_IDENTIFICACION</code>, <code>COD/ID_TP_IDENTIFICACION</code>, <code>ID_SOI_PLANILLA</code>, PK <code>ID_SOI_PLANILLA_CZTE = SEQ_SOI_PLANILLA_CZTE.NEXTVAL</code> (RETURNING).</p>
+
+        <h3 id="sec-4-4">4.4 <code>SOI_PLANILLA_CZTE_NV</code> — <code>extraerInformacionNovedades</code> &rarr; <code>OraclePlanillaCzteNvDAO.insertar</code></h3>
+        <p><strong>Una fila por novedad</strong> del <code>PlanillaCotizanteDTO</code> (no hay cadena serializada): columnas <code>IBC_CALCULADO, FECHA_FIN, FECHA_INICIO, INTEGRAL, VALOR_ARCHIVO, VALOR_NO_RETENIDO, APORTE_VOL_CZTE, APORTE_VOL_APTE, ULTIMA_NOVEDAD, TARIFA, VALOR, COD_ADMINISTRADORA, ID_ADMINISTRADORA, DIA_FINAL, DIA_INICIAL, CODIGO_TP_NOVEDAD, ID_NOVEDAD, ID_SOI_PLANILLA_CZTE, ID_SOI_PLANILLA_CZTE_NV(=SEQ_SOI_PLANILLA_CZTE_NV)</code>.</p>
+        <p>Reglas notables (<code>AlmacenamientoPlanillaHelper:2832+</code>):</p>
+        <ul>
+            <li><code>VALOR_ARCHIVO</code> = <code>representacionNovedadArchivo</code> (o 'X' para cotizante 51); IRP archivo '31'&rarr;'30'.</li>
+            <li>ING: <code>FECHA_INICIO</code> calculada por <code>calcularFecha(periodo, diaING)</code>; RET: <code>FECHA_FIN</code> por <code>diaRET</code>.</li>
+            <li>Omite novedades NEC567 (<code>isNovedadIgnoradaNec567</code>, se auditan en <code>novedadesOmitidasRegAPnllaN</code>) y novedad COR si la planilla no es tipo N (<code>debeOmitirNovedadCorreccion</code>).</li>
+        </ul>
+        <div class="callout-warn">
+            <strong>Ojo:</strong> en <code>isCotizantesValidos</code> se hace <code>cotizanteCopia.getMapaNovedades().clear()</code> &rarr; la copia llega <strong>sin novedades</strong> salvo las que <code>getOpcionesSSYCalculos</code> pueda re-derivar. Verificar en NSOI 3.0 que el efecto sea el esperado.
+        </div>
+
+        <h3 id="sec-4-5">4.5 <code>SOI_PLANILLA_CZTE_SS</code> / <code>SOI_PLANILLA_CZTE_PF</code></h3>
+        <p>Dentro de <code>insertarCotizante</code> (<code>AlmacenamientoPlanillaHelper:2253+</code> y <code>2518+</code>):</p>
+        <ul>
+            <li><code>CZTE_PF</code> (<code>OraclePlanillaCztePfDAO.insertar</code>): administradoras MEN/ESAP/ICBF/SENA/CCF (<code>ID_ADMINISTRADORA_*</code>, <code>NIT_*</code>, <code>COD_*</code> resueltos vía <code>consultarAdministradorVO</code>), <code>APORTE/TARIFA/IBC/NUMERO_DIAS_*</code>, <code>HORAS_LABORADAS</code>, <code>IBC_OTROS_PARAFISCALES</code>, flags <code>INCLUIR_ARCH_SALIDA_*</code>, <code>SUBSISTEMA_EDICION_*</code>, auditoría.</li>
+            <li><code>CZTE_SS</code> (<code>OraclePlanillaCzteSsDAO.insertar</code>): administradoras AFP (incl. AFP_CPM/AFP_ACCAI), EPS, ARP con <code>NIT_/COD_/ID_ADMINISTRADORA_*</code>, aportes/tarifas/IBC/días, <code>RIESGO_CLASE/ID_SOI_RIESGO_CLASE</code>, <code>ACTIVIDAD_ECONOMICA_ARL</code>, <code>IND_TAR_ESP_PENSION</code>, <code>TRANSICION</code>, <code>SEGURO_PREVISIONAL</code>, <code>IBC_ACUMULADO</code>, <code>NO_INC_ARCH_SAL_EPS_EP837</code>.</li>
+        </ul>
+
+        <h3 id="sec-4-6">4.6 <code>SOI_PLANILLA_TOTAL_*</code> — <code>PCK_ALM_TOTALES.almacenar(AlmacenadoTotalesDTO)</code></h3>
+        <p><code>almacenarTotalesPlanilla</code> (Helper:3356) arma 4 colecciones: <code>PlanillaTotalPenVO</code> (incl. <code>DISTRIBUCION_EMPLD/EMPLDR</code>, <code>SEGURO_PREVISIONAL</code>, <code>MORA_SEGURO_PREVISIONAL</code>, FSP), <code>PlanillaTotalSalVO</code> (FOSYGA/UPC/SAF/autorizaciones), <code>PlanillaTotalArpVO</code> (FRP/SAF/autorizaciones inc), <code>PlanillaTotalPfVO</code> (por subsistema). Si falta alguna colección se envía vacía; si <code>totalesSubsistema</code> es null/vacío &rarr; <code>APORTANTES_TOTALES_SUBSISTEMAS_NULL</code>. El STP recibe un único parámetro-objeto.</p>
+
+        <h3 id="sec-4-7">4.7 Estado final y retorno</h3>
+        <ul>
+            <li><code>ID_ESTADO</code> = <strong>GUARDADA</strong> (<code>AlmacenamientoPlanillaHelper</code> ~1277-1282: solo conserva <code>PENDIENTE_PAGO_OTROS_CANALES</code> si el DTO lo trae, pero Paso2 lo resetea a GUARDADA; ver §5.4).</li>
+            <li><code>guardarPlanillaAportante</code> retorna <code>InformacionPlanillaDTO</code> con <code>idSoiPlanilla</code> (PK nueva), <code>numeroPlanilla</code> (<code>NUMERO_ELECTRONICA</code>), <code>cantidadCotizantes</code>, <code>valorTotal</code>, <code>valorMora</code>. Paso2 lo usa para <code>numeroPlanillaElectronica</code> del DTO de salida y para <code>registrarRevalidacionActivos</code>.</li>
+            <li><code>VIGENTE=1</code>; <code>GUARDADA_COMPLETAMENTE</code> queda con el valor por defecto del VO (la actualización a 1 la hace solo el SP del archivo plano).</li>
+        </ul>
+
+        <!-- SECCIÓN 5 -->
+        <h2 id="sec-5">5. Validaciones y reglas de negocio previas al guardado</h2>
+
+        <h3 id="sec-5-1">5.1 <code>copiarPlanillaAPartirDeBaseRN</code> (<code>LiquidacionPlanillaMngr:872</code>)</h3>
+        <p>Rechaza con <code>PLANILLA_BASE_NO_CUMPLE_COPIA_PLANILLAS</code> salvo que:</p>
+        <ul>
+            <li><strong>Tipo</strong> &isin; {E, I, K, S, Y, J} (<code>TipoPlanillaType.E_EMPLEADOS_EMPRESAS</code>, <code>I_INDEPENDIENTES</code>, <code>K_ESTUDIANTES</code>, <code>S_EMPLEADOS_DE_INDEPENDIENTES</code>, <code>Y_INDEPENDIENTES_EMPRESAS</code>, <code>J_SENTENCIA_JUDICIAL</code>).</li>
+            <li><strong>Estado</strong> &isin; {GUARDADA, PENDIENTE_PAGO_OTROS_CANALES, PENDIENTE_CONFIRMACION_PAGO_LINEA, PENDIENTE_DE_PAGO_ELECTRONICO_OTROS_CANALES}.</li>
+            <li><code>GeneralValidador.validarFechaCreacionPlanillaCopia(fechaCreacion)</code> OK.</li>
+        </ul>
+
+        <h3 id="sec-5-2">5.2 Cálculo de períodos y omisión</h3>
+        <ul>
+            <li><code>validarPeriodosPlanillaCopia</code> (línea ~1455): itera <code>periodoNoSaludDesde..Hasta</code> mes a mes (<code>sumarMesPeriodo</code> = <code>Calendar.MONTH+1</code>); períodoSalud avanza en paralelo. Para cada mes: <code>planillaConsultaMngr.validarPlanillaPeriodoAportante</code> (&iquest;ya existe planilla?) + <code>nsoiRNPlanillaBiz.validarPeriodoLiquidacionOtrosSubsistemas</code> (reforma pensional &rarr; <code>PERIODO_OTROS_SUBSISTEMAS_NO_VALIDO_REFORMA_PENSIONAL</code>). Períodos ocupados &rarr; <code>periodosOmitidosCopiaPlanilla</code>.</li>
+            <li><code>copiarPlanillaAPartirDeBase</code> (línea 920): <code>cotizantes = consultarCotizantesDePlanilla(idBase)</code>; por cada mes no omitido (<code>validarPeriodoOmitido</code>):
+                <ul>
+                    <li><code>aportanteCopia</code>: clone con <code>idSoiPlanilla/idAsociada/fechaCreacion/fechaPagoEfectiva/numeros de planilla/valorPagado = null</code>.</li>
+                    <li><code>isPeriodoPermitidoBenfecioParafiscalesCovid</code> / <code>...PensionCovid</code>, <code>isCotizantesValidos</code> &rarr; si falla, <strong><code>break</code></strong> (detiene el resto de meses).</li>
+                    <li>EP747: si PUB200A FRL reporta ARP distinta y el período &ge; fecha de vinculación &rarr; actualiza <code>idSoiAdministradoraARP</code> del aportante y de cada cotizante (<code>isActualizaArpAportante</code>).</li>
+                    <li>TC35 sin tarifa CCF con período &ge; <code>PERIODO_APLICACION_REFORMA_PENSIONAL_2064</code> &rarr; error (o tarifa 0.02 por defecto).</li>
+                    <li>TC43 con reforma pensional &rarr; <code>COTIZANTE_43_NO_APLICA</code>; TC59 no permitido &rarr; <code>COTIZANTE_59_NO_APLICA</code>; TC51 independiente post <code>PERIODO_INICIO_EP_878</code> &rarr; período no se agrega.</li>
+                    <li><code>puedeAgregarPlanillaCot51</code>, <code>validacionFechaPerSaludCotizantePlanilla</code> (reemplaza tipo salario por defecto a partir del período configurado en <code>PlaPropertiesConfiguration</code>).</li>
+                </ul>
+            </li>
+            <li>Paso2 vuelve a chequear <code>existePlanillaMismoPeriodo</code> justo antes de persistir y acumula <code>periodosExistentes</code> (mes-año) para el mensaje.</li>
+        </ul>
+
+        <h3 id="sec-5-3">5.3 ¿Se recalculan totales/mora/IBC?</h3>
+        <ul>
+            <li><strong>Totales y mora:</strong> <code>TotalizadorPlanillaMngr</code> recalcula (<code>recalcularMora=true</code> por defecto, solo false para tipo Z) sobre los aportes copiados &rarr; <code>VlrGranTotal</code>, <code>VlrGranTotalMora</code>, <code>fechaPagoOportuno</code>. No se copian los totales de la base.</li>
+            <li><strong>IBC/aportes:</strong> se copian del cotizante base, <strong>excepto</strong>: si tiene novedad de retiro de pensión &rarr; aporte PENSIÓN en null; si hay ausentismo y ARP/CCF con tarifa=0 y aporte=0 &rarr; <code>recalculoIBCActualizacionCotizante</code> + <code>validarActualizarTarifaArp/CCF</code> (recalcula tarifa y valor); novedad VSP &rarr; salario = <code>nuevoSalario</code>; <code>idTipoSalario</code> &rarr; <code>obtenerTipoSalarioPorDefecto</code>; <code>marcasEdicionDiasDesdeBD</code> recalculadas para seguridad social.</li>
+            <li><strong>Novedades:</strong> <code>mapaNovedades</code> se limpia en la copia (ver §4.4).</li>
+        </ul>
+
+        <h3 id="sec-5-4">5.4 Estado, usuario e IP de la copia</h3>
+        <ul>
+            <li>En Paso2: <code>formaElaboracionPlanilla=COPIADA_POR_PE</code>, <code>copiaPlanilla=true</code>, <code>idSoiPlanillaCopia=idBase</code>, estados/ids/números a null, y si la base estaba <code>PENDIENTE_PAGO_OTROS_CANALES</code> (o restricción cta. bancaria) &rarr; <code>estadoPlanilla=GUARDADA</code>; <code>restriccionCtaBc=false</code>.</li>
+            <li><code>crearplanillaVO</code>: persiste <code>PENDIENTE_PAGO_OTROS_CANALES</code> solo si el DTO aún lo trae; en la práctica la copia queda <strong>GUARDADA</strong>.</li>
+            <li><code>usuarioCreacion</code>/<code>ipCreacion</code> = usuario autenticado del request (Paso2 líneas 201-202).</li>
+        </ul>
+
+        <!-- SECCIÓN 6 -->
+        <h2 id="sec-6">6. Diferencias con el archivo plano</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspecto</th>
+                    <th>Copiar planillas (este flujo)</th>
+                    <th>Archivo plano</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Staging</strong></td>
+                    <td><strong>Ninguna</strong> — INSERT directo JDBC</td>
+                    <td><code>TMP_PLANILLA</code>, <code>TMP_PLANILLA_APTE</code>, <code>TMP_PLANILLA_CZTE</code>, <code>TMP_PLANILLA_TOTAL_*</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Encabezado</strong></td>
+                    <td><code>OraclePlanillaDAO.insertar</code> (INSERT con <code>SEQ_SOI_PLANILLA.NEXTVAL</code>, RETURNING)</td>
+                    <td><code>PRC_ALM_ENCABEZADO_Y_TOTALES</code>: <code>INSERT INTO SOI_PLANILLA SELECT &hellip; FROM tmp_planilla</code> con <code>obtenersecuencia('SEQ_SOI_PLANILLA')</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Aportante</strong></td>
+                    <td><code>OraclePlanillaApteDAO.insertar</code></td>
+                    <td><code>INSERT INTO SOI_PLANILLA_APTE SELECT &hellip; FROM tmp_planilla_apte</code> (<code>SEQ_SOI_PLANILLA_APTE</code>)</td>
+                </tr>
+                <tr>
+                    <td><strong>Cotizantes</strong></td>
+                    <td>Loop Java <code>insertarCotizante</code> &rarr; 4 DAOs</td>
+                    <td>Cursor <code>all_czte</code> sobre <code>TMP_PLANILLA_CZTE</code> &rarr; <code>construirCzteVO</code> + bulk <code>insertCzte/CzteNv/CzteSs/CztePf</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Novedades</strong></td>
+                    <td>Filas <code>SOI_PLANILLA_CZTE_NV</code> directas (mapa limpiado)</td>
+                    <td>Cadena posicional <code>NOVEDADES</code>/<code>FECHAS_NOVEDADES</code> parseada en PL/SQL</td>
+                </tr>
+                <tr>
+                    <td><strong>Totales</strong></td>
+                    <td><code>PCK_ALM_TOTALES.almacenar(?)</code> con colecciones Java</td>
+                    <td><code>INSERT INTO SOI_PLANILLA_TOTAL_* SELECT &hellip; FROM tmp_planilla_total_*</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Número planilla</strong></td>
+                    <td><code>fun_soi_secu_planilla</code> (función)</td>
+                    <td>Mismo generador vía <code>PCK_SOI_SECUENCIA_PLANILLAS</code> en <code>PCK_ALMACENAMIENTO_ARCHIVOS_P</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Resolución admras.</strong></td>
+                    <td>Java (<code>ConfiguracionPlanillaConsultaCoherence</code>) por id/código</td>
+                    <td>Caché PL/SQL <code>inicializarAdministradoras</code> + <code>consultarAdministradora</code> por <code>COD_ADMINISTRADORA</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Sobreescritura</strong></td>
+                    <td>N/A en copia</td>
+                    <td><code>idPlanillaGuardada</code> + <code>modificarPlanilla</code>; <code>PRC_BORRADO_PLANILLA_SC</code> borra la anterior</td>
+                </tr>
+                <tr>
+                    <td><strong>Post-guardado</strong></td>
+                    <td><code>prc_validacion_planilla</code> desde Java (salvo tipo N)</td>
+                    <td><code>PRC_VALIDACION_PLANILLA</code> + <code>GUARDADA_COMPLETAMENTE=1</code> dentro del SP; si <code>-20005</code> &rarr; <code>VIGENTE=0, USUARIO_MODIFICACION='diferencia_totales'</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Limpieza TMP</strong></td>
+                    <td>—</td>
+                    <td><strong>El SP no borra las TMP</strong> (quedan ligadas por <code>SOI_PLANILLA.ID_TMP_PLANILLA</code>)</td>
+                </tr>
+                <tr>
+                    <td><strong>Retorno</strong></td>
+                    <td><code>InformacionPlanillaDTO</code> (id + número + totales)</td>
+                    <td><code>idNuevaPlanilla</code> OUT = nuevo <code>ID_SOI_PLANILLA</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Variante paginada</strong></td>
+                    <td>—</td>
+                    <td><code>PCK_ALM_ARCHIVOS_EVOL.PRC_GUARDAR_PLANILLA</code> + <code>PRC_INSERTAR_PLA_COT_PAG</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Fragmento PL/SQL relevante (<code>guardarPlanillaArchivo</code>, body línea 2315)</h3>
+        <pre><code>PROCEDURE guardarPlanillaArchivo ( idTmpPlanilla       IN  TMP_PLANILLA.ID_TMP_PLANILLA%TYPE,
+                                   idPlanillaGuardada  IN  SOI_PLANILLA.ID_SOI_PLANILLA%type,
+                                   modificarPlanilla   IN  NUMBER,
+                                   usuario_creacion    IN  VARCHAR2,
+                                   ip_creacion         IN  VARCHAR2,
+                                   idNuevaPlanilla     OUT SOI_PLANILLA.ID_SOI_PLANILLA%type) is
+BEGIN
+    idNuevaPlanilla := -1;
+    select count(1) into existeIdTmpPlanilla from tmp_planilla where id_tmp_planilla = idTmpPlanilla;
+    if (existeIdTmpPlanilla &lt; 1) then return; end if;
+
+    select count(1) into numero_cotizantes from TMP_PLANILLA_CZTE where ID_SOI_PLANILLA = idTmpPlanilla;
+
+    PRC_ALM_ENCABEZADO_Y_TOTALES ( idTmpPlanilla, idPlanillaGuardada, modificarPlanilla,
+                                   usuario_creacion, ip_creacion, idNuevaPlanilla);
+
+    PRC_INSERTAR_PLA_COT(idTmpPlanilla, idNuevaPlanilla, usuario_creacion, ip_creacion);
+
+    UPDATE SOI_PLANILLA SET GUARDADA_COMPLETAMENTE = 1 WHERE ID_SOI_PLANILLA = idNuevaPlanilla;
+
+    BEGIN
+        PRC_VALIDACION_PLANILLA(idNuevaPlanilla);
+    EXCEPTION WHEN OTHERS THEN
+        IF SQLCODE = -20005 THEN
+            UPDATE SOI_PLANILLA SET VIGENTE = 0, GUARDADA_COMPLETAMENTE = 1,
+                   usuario_modificacion='diferencia_totales', fecha_modificacion = SYSDATE
+             WHERE ID_SOI_PLANILLA = idNuevaPlanilla;
+            COMMIT;
+        END IF;
+        raise_application_error(SQLCODE, SQLERRM);
+    END;
+END guardarPlanillaArchivo;</code></pre>
+        <p><code>PRC_INSERTAR_PLA_COT</code> (línea 1951): caché de administradoras, marca <code>id_soi_planilla=-1</code> a cotizantes previos, cursor <code>all_czte</code> (o <code>all_czte_n</code> para tipo N=7 ordenado por <code>id_grupo_cotizante, correccion_mn</code>), por fila: <code>SEQ_SOI_PLANILLA_CZTE</code> &rarr; <code>construirCzteVO</code> &rarr; <code>insertCzte/insertCzteNv/insertCzteSs/insertCztePf</code> con commits intermedios por bloques.</p>
+
+        <!-- SECCIÓN 7 -->
+        <h2 id="sec-7">7. Checklist de fidelidad para NSOI 3.0</h2>
+        <div class="checklist">
+            <ol>
+                <li>La copia persiste <strong>solo por JDBC</strong> en definitivas; <strong>no</strong> reutilizar el SP de archivo plano ni las TMP.</li>
+                <li>Número de planilla nuevo por <code>PCK_SOI_SECUENCIA_PLANILLAS.fun_soi_secu_planilla(codOperador)</code>; modalidad forzada a electrónica &rarr; <code>NUMERO_ELECTRONICA</code>.</li>
+                <li><code>ID_SOI_PNLLA_COPIA</code> = id base; <code>FORMA_ELABORACION</code> = COPIADA_POR_PE; <code>ID_ESTADO</code> = GUARDADA; <code>VIGENTE</code> = 1.</li>
+                <li>Orden de inserts: <code>SOI_PLANILLA</code> &rarr; <code>SOI_PLANILLA_APTE</code> &rarr; totales (<code>PCK_ALM_TOTALES.almacenar</code>) &rarr; por cotizante <code>CZTE</code> &rarr; <code>CZTE_NV</code> &rarr; <code>CZTE_SS</code> &rarr; <code>CZTE_PF</code> &rarr; <code>prc_validacion_planilla</code> (salvo tipo N).</li>
+                <li>Totales/mora recalculados (<code>TotalizadorPlanillaMngr</code>), no copiados; excepciones IBC/ARP/CCF/VSP salario/novedades limpiadas documentadas en §5.3.</li>
+                <li><code>USUARIO_CREACION</code>/<code>IP_CREACION</code> = usuario e IP del request actual.</li>
+                <li>Fallo en un cotizante &rarr; se aborta toda la planilla y el lote completo de copias.</li>
+                <li>Revalidación posterior: <code>prc_marca_revalidacion_activos</code> si administradoras inválidas o reglas (cot. 21/51/43, 34-12, act. económica ARL, EP714) lo exigen.</li>
+            </ol>
+        </div>
+    </main>
+</div>
+</body>
+</html>
